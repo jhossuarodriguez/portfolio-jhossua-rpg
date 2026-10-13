@@ -1,0 +1,10 @@
+packages:
+  - tools/*
+
+minimumReleaseAgeExclude:
+  - '@ai-sdk/gateway@4.0.112'
+  - '@testing-library/user-event@14.6.8'
+  - ai@7.0.139
+
+# `astro check` (archivos .astro) todavía necesita la API JS de TypeScript 6, así que vive en su
+# propio paquete (tools/astro-check) con su TypeScript 6. El resto del proyecto usa TypeScript 7.

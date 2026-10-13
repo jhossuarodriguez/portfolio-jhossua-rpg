@@ -1,0 +1,19 @@
+# Dependencias y builds
+node_modules/
+dist/
+.astro/
+coverage/
+
+# Reportes y caché de e2e (TesterArmy)
+.e2e/
+
+# Entorno
+.env
+.env.*
+!.env.example
+
+# Sistema / editores
+.DS_Store
+*.log
+.vscode/*
+!.vscode/extensions.json

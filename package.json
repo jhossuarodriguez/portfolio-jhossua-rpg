@@ -1,0 +1,54 @@
+{
+  "name": "portfolio-jhossua-rpg",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portafolio de Jhossua Roa Rodriguez como un RPG 2D de mano (estilo Gen V) hecho con Astro + three.js.",
+  "type": "module",
+  "packageManager": "pnpm@12.11.2",
+  "engines": {
+    "node": ">=24.8.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "typecheck:astro": "pnpm --filter @portfolio/astro-check check",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "check": "pnpm typecheck && pnpm typecheck:astro && pnpm lint",
+    "test": "vitest run",
+    "test:unit": "vitest run --project unit",
+    "test:components": "vitest run --project components",
+    "test:functional": "vitest run --project functional",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "e2e run --exclude-tag agent",
+    "test:e2e:agent": "e2e run --tag agent",
+    "serve:e2e": "astro build && astro preview --host 127.0.0.1",
+    "og": "node scripts/og-image.ts",
+    "ci": "pnpm check && pnpm test && pnpm build && pnpm test:e2e"
+  },
+  "dependencies": {
+    "@fontsource/pixelify-sans": "5.3.0",
+    "astro": "7.3.8",
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@e2e-dev/web": "0.14.0",
+    "@tailwindcss/vite": "4.3.3",
+    "@testing-library/dom": "10.4.2",
+    "@testing-library/user-event": "14.6.8",
+    "@types/node": "26.6.5",
+    "@types/three": "0.186.0",
+    "@vitest/coverage-v8": "5.0.4",
+    "ai": "7.0.139",
+    "e2e": "0.20.0",
+    "happy-dom": "21.0.1",
+    "tailwindcss": "4.3.3",
+    "typescript": "7.0.2",
+    "vitest": "5.0.4"
+  }
+}

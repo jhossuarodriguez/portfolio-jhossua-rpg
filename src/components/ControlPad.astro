@@ -1,0 +1,38 @@
+---
+interface Props {
+  side: 'dpad' | 'actions';
+}
+
+const { side } = Astro.props;
+---
+
+{
+  side === 'dpad' ? (
+    <div class="pad pad--dpad js-only" role="group" aria-label="Cruceta" data-game-control>
+      <button type="button" class="dpad__button dpad__button--up" data-button="up" aria-label="Arriba" />
+      <button type="button" class="dpad__button dpad__button--left" data-button="left" aria-label="Izquierda" />
+      <span class="dpad__center" aria-hidden="true" />
+      <button type="button" class="dpad__button dpad__button--right" data-button="right" aria-label="Derecha" />
+      <button type="button" class="dpad__button dpad__button--down" data-button="down" aria-label="Abajo" />
+    </div>
+  ) : (
+    <div class="pad pad--actions js-only" role="group" aria-label="Botones" data-game-control>
+      <div class="face-buttons">
+        <button type="button" class="face-button face-button--b" data-button="b" aria-label="B: cancelar, mantén para correr">
+          B
+        </button>
+        <button type="button" class="face-button face-button--a" data-button="a" aria-label="A: hablar o confirmar">
+          A
+        </button>
+      </div>
+      <div class="pill-buttons">
+        <button type="button" class="pill-button" data-button="select" aria-label="Select: abrir el mapa">
+          Select
+        </button>
+        <button type="button" class="pill-button" data-button="start" aria-label="Start: abrir el menú">
+          Start
+        </button>
+      </div>
+    </div>
+  )
+}

@@ -1,0 +1,244 @@
+---
+import { PROFILE } from '../data/profile.ts';
+import { CATEGORY_LABELS, PROJECTS } from '../data/projects.ts';
+import { PRIMADA } from '../game/world/primada.ts';
+import PixelIcon, { type IconName } from './PixelIcon.astro';
+import ProjectDetail from './ProjectDetail.astro';
+
+const MENU: ReadonlyArray<{ view: string; label: string; icon: IconName; hint: string }> = [
+  { view: 'projects', label: 'Proyectos', icon: 'projects', hint: `${PROJECTS.length} en el pueblo` },
+  { view: 'map', label: 'Mapa', icon: 'map', hint: 'Ir directo a un edificio' },
+  { view: 'about', label: 'Sobre mí', icon: 'person', hint: PROFILE.role },
+  { view: 'skills', label: 'Habilidades', icon: 'star', hint: 'Stack y herramientas' },
+  { view: 'contact', label: 'Contacto', icon: 'mail', hint: 'Correo y redes' },
+  { view: 'options', label: 'Opciones', icon: 'gear', hint: 'Sonido, texto, estación' },
+];
+
+const LINK_ICONS: Readonly<Record<(typeof PROFILE.links)[number]['id'], IconName>> = {
+  github: 'code',
+  linkedin: 'projects',
+  email: 'mail',
+  x: 'chat',
+  instagram: 'camera',
+};
+
+const markers = PRIMADA.buildings.map((building) => ({
+  id: building.id,
+  name: building.name,
+  left: ((building.x + building.style.width / 2) / PRIMADA.width) * 100,
+  top: ((building.y + building.style.height / 2) / PRIMADA.height) * 100,
+  isProject: building.kind === 'project',
+}));
+const email = PROFILE.links.find((link) => link.id === 'email');
+---
+
+<section id="pantalla-tactil" class="screen screen--bottom" aria-label="Pantalla táctil: el portafolio" data-touch-screen>
+  <header class="status-bar">
+    <span data-clock>--:--</span>
+    <span class="js-only" data-season-label>Estación</span>
+    <span>Visitados <strong data-visited-count>0</strong>/<span data-visited-total>{PROJECTS.length}</span></span>
+  </header>
+
+  <div class="views">
+    <section class="view view--home" data-view="home" aria-labelledby="vista-menu" data-active>
+      <h2 id="vista-menu" class="view__title" tabindex="-1" data-view-title>{PROFILE.name}</h2>
+      <p class="mb-3 text-mist">{PROFILE.role} en {PROFILE.location}. Explora el pueblo o ve directo a lo que buscas.</p>
+      <nav aria-label="Secciones del portafolio">
+        <ul class="menu-grid">
+          {
+            MENU.map((item) => (
+              <li>
+                <a class="menu-button" href={`#vista-${item.view}`} data-open-view={item.view}>
+                  <PixelIcon name={item.icon} class="menu-button__icon" />
+                  <span class="menu-button__label">{item.label}</span>
+                  <span class="menu-button__hint">{item.hint}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </section>
+
+    <section class="view" id="vista-projects" data-view="projects" aria-labelledby="titulo-proyectos">
+      <h2 id="titulo-proyectos" class="view__title" tabindex="-1" data-view-title>Proyectos</h2>
+      <ul class="project-list">
+        {
+          PROJECTS.map((project) => (
+            <li>
+              <a class="project-row" href={`#proyecto-${project.id}`} data-open-project={project.id}>
+                <span class="project-row__name">{project.name}</span>
+                <span class="project-row__tagline">{project.tagline}</span>
+                <span class="project-row__meta">
+                  <span class="chip chip--quiet">{CATEGORY_LABELS[project.category]}</span>
+                  <span class="visited-mark" data-visited-mark={project.id} data-visited="false" aria-label="Sin visitar" />
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    {PROJECTS.map((project) => <ProjectDetail project={project} />)}
+
+    <section class="view" id="vista-about" data-view="about" aria-labelledby="titulo-sobre-mi">
+      <h2 id="titulo-sobre-mi" class="view__title" tabindex="-1" data-view-title>Sobre mí</h2>
+      <p class="leading-snug">{PROFILE.bio}</p>
+      <blockquote class="motto">{PROFILE.motto}</blockquote>
+      <h3 class="view__subtitle">Experiencia</h3>
+      <ul class="timeline">
+        {
+          PROFILE.experience.map((item) => (
+            <li>
+              <strong>{item.role}</strong> en {item.organization}
+              <span class="block text-sm text-mist">{item.detail}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <h3 class="view__subtitle">Formación</h3>
+      <ul class="timeline">
+        {
+          PROFILE.education.map((item) => (
+            <li>
+              <strong>{item.role}</strong> en {item.organization}
+              <span class="block text-sm text-mist">{item.detail}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="view" id="vista-skills" data-view="skills" aria-labelledby="titulo-habilidades">
+      <h2 id="titulo-habilidades" class="view__title" tabindex="-1" data-view-title>Habilidades</h2>
+      {
+        PROFILE.skills.map((group) => (
+          <div class="mb-3">
+            <h3 class="view__subtitle">{group.title}</h3>
+            <ul class="flex flex-wrap gap-1.5">
+              {group.items.map((item) => (
+                <li class="chip chip--tech">{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </section>
+
+    <section class="view" id="vista-contact" data-view="contact" aria-labelledby="titulo-contacto">
+      <h2 id="titulo-contacto" class="view__title" tabindex="-1" data-view-title>Contacto</h2>
+      <p class="mb-3 leading-snug">¿Un proyecto, una vacante o una pregunta? Escríbeme y respondo pronto.</p>
+      {
+        email && (
+          <a class="action action--primary mb-3 w-full justify-center" href={email.url}>
+            <PixelIcon name="mail" />
+            Escribir a {email.handle}
+          </a>
+        )
+      }
+      <ul class="contact-list">
+        {
+          PROFILE.links
+            .filter((link) => link.id !== 'email')
+            .map((link) => (
+              <li>
+                <a class="contact-row" href={link.url} target="_blank" rel="noopener noreferrer me">
+                  <PixelIcon name={LINK_ICONS[link.id]} />
+                  <span class="font-bold">{link.label}</span>
+                  <span class="text-mist">{link.handle}</span>
+                  <span class="sr-only">(se abre en otra pestaña)</span>
+                </a>
+              </li>
+            ))
+        }
+      </ul>
+    </section>
+
+    <section class="view" id="vista-map" data-view="map" aria-labelledby="titulo-mapa">
+      <h2 id="titulo-mapa" class="view__title" tabindex="-1" data-view-title>Mapa de Ciudad Primada</h2>
+      <p class="mb-2 text-sm text-mist js-only">Toca un edificio y el personaje camina solo hasta su puerta.</p>
+      <div class="minimap js-only" data-minimap>
+        <canvas class="minimap__canvas" data-minimap-canvas aria-hidden="true"></canvas>
+        {
+          markers.map((marker) => (
+            <button
+              type="button"
+              class="minimap__marker"
+              data-kind={marker.isProject ? 'project' : 'place'}
+              style={`left:${marker.left}%;top:${marker.top}%`}
+              data-walk-to={marker.id}
+              aria-label={`Ir a ${marker.name}`}
+              title={marker.name}
+            />
+          ))
+        }
+        <span class="minimap__player" data-map-player aria-hidden="true"></span>
+      </div>
+      <ul class="place-list">
+        {
+          markers.map((marker) => (
+            <li>
+              <button type="button" class="place-row js-only" data-walk-to={marker.id}>
+                <span class="place-row__dot" data-kind={marker.isProject ? 'project' : 'place'} />
+                {marker.name}
+              </button>
+              <span class="no-js-only">{marker.name}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="view" id="vista-options" data-view="options" aria-labelledby="titulo-opciones">
+      <h2 id="titulo-opciones" class="view__title" tabindex="-1" data-view-title>Opciones</h2>
+      <form class="settings js-only" data-settings>
+        <label class="setting">
+          <span>Sonido</span>
+          <input type="checkbox" name="sound" />
+        </label>
+        <label class="setting">
+          <span>Velocidad del texto</span>
+          <select name="textSpeed">
+            <option value="slow">Lenta</option>
+            <option value="normal" selected>Normal</option>
+            <option value="fast">Rápida</option>
+          </select>
+        </label>
+        <label class="setting">
+          <span>Estación</span>
+          <select name="season">
+            <option value="auto" selected>Según el mes</option>
+            <option value="spring">Primavera</option>
+            <option value="summer">Verano</option>
+            <option value="autumn">Otoño</option>
+            <option value="winter">Invierno</option>
+          </select>
+        </label>
+        <label class="setting">
+          <span>Hora del día</span>
+          <select name="time">
+            <option value="auto" selected>Según tu reloj</option>
+            <option value="morning">Mañana</option>
+            <option value="day">Día</option>
+            <option value="evening">Atardecer</option>
+            <option value="night">Noche</option>
+          </select>
+        </label>
+        <button type="button" class="action" data-reset-visited>Borrar proyectos visitados</button>
+      </form>
+      <p class="no-js-only text-mist">Las opciones del juego necesitan JavaScript.</p>
+    </section>
+  </div>
+
+  <nav class="nav-bar js-only" aria-label="Navegación de la pantalla táctil">
+    <button type="button" class="nav-bar__button" data-nav-back disabled>
+      <PixelIcon name="back" />
+      Atrás
+    </button>
+    <button type="button" class="nav-bar__button" data-open-view="home">
+      <PixelIcon name="home" />
+      Menú
+    </button>
+  </nav>
+</section>

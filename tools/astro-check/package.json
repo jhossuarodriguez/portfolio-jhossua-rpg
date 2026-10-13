@@ -1,0 +1,14 @@
+{
+  "name": "@portfolio/astro-check",
+  "private": true,
+  "description": "Chequeo de tipos de los .astro. Vive aparte porque @astrojs/check usa la API JS de TypeScript 6.",
+  "type": "module",
+  "scripts": {
+    "check": "astro-check --root ../.."
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "astro": "7.3.8",
+    "typescript": "6.0.3"
+  }
+}

@@ -1,0 +1,50 @@
+---
+import { PROFILE } from '../data/profile.ts';
+import BottomScreen from './BottomScreen.astro';
+import ControlPad from './ControlPad.astro';
+import TopScreen from './TopScreen.astro';
+---
+
+<main class="console" data-console data-layout="stacked">
+  <h1 class="sr-only">{PROFILE.name}, {PROFILE.role}: portafolio interactivo</h1>
+  <div class="console__shell">
+    <span class="console__speaker console__speaker--left" aria-hidden="true"></span>
+    <span class="console__speaker console__speaker--right" aria-hidden="true"></span>
+    <div class="console__area console__area--top">
+      <TopScreen />
+    </div>
+    <div class="console__hinge" aria-hidden="true">
+      <span class="console__led"></span>
+    </div>
+    <div class="console__area console__area--dpad">
+      <ControlPad side="dpad" />
+    </div>
+    <div class="console__area console__area--bottom">
+      <BottomScreen />
+    </div>
+    <div class="console__area console__area--actions">
+      <ControlPad side="actions" />
+    </div>
+  </div>
+
+  <aside class="key-hints js-only" aria-label="Controles de teclado">
+    <dl>
+      <div><dt><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd></dt><dd>Moverse</dd></div>
+      <div><dt><kbd>Z</kbd> o <kbd>Enter</kbd></dt><dd>A: hablar, leer, aceptar</dd></div>
+      <div><dt><kbd>X</kbd> o <kbd>Shift</kbd></dt><dd>B: cancelar (mantén para correr)</dd></div>
+      <div><dt><kbd>P</kbd></dt><dd>Start: menú</dd></div>
+      <div><dt><kbd>M</kbd></dt><dd>Select: mapa</dd></div>
+    </dl>
+  </aside>
+
+  <footer class="site-footer">
+    <p>
+      Hecho por {PROFILE.name} con Astro, three.js y Tailwind. El pueblo, los personajes y los edificios son
+      originales y se dibujan con código.
+    </p>
+  </footer>
+</main>
+
+<script>
+  import '../scripts/main.ts';
+</script>

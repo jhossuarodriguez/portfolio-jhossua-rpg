@@ -1,0 +1,67 @@
+---
+import { CATEGORY_LABELS, type Project, STATUS_LABELS } from '../data/projects.ts';
+import PixelIcon from './PixelIcon.astro';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const titleId = `proyecto-${project.id}`;
+---
+
+<section class="view" data-view="project" data-project-id={project.id} aria-labelledby={titleId}>
+  <header class="view__header">
+    <h3 id={titleId} class="view__title" tabindex="-1" data-view-title>{project.name}</h3>
+    <p class="flex flex-wrap items-center gap-2 text-sm text-mist">
+      <span class="chip" data-status={project.status}>{STATUS_LABELS[project.status]}</span>
+      <span class="chip chip--quiet">{CATEGORY_LABELS[project.category]}</span>
+      <span class="visited-mark" data-visited-mark={project.id} data-visited="false" aria-label="Sin visitar"></span>
+    </p>
+  </header>
+
+  <p class="leading-snug">{project.description}</p>
+
+  {
+    project.highlights.length > 0 && (
+      <ul class="highlights" aria-label="Lo más destacado">
+        {project.highlights.map((highlight) => (
+          <li>{highlight}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  {
+    project.stack.length > 0 && (
+      <ul class="flex flex-wrap gap-1.5" aria-label="Tecnologías">
+        {project.stack.map((tech) => (
+          <li class="chip chip--tech">{tech}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  <div class="project-actions">
+    {
+      project.liveUrl && (
+        <a class="action action--primary" href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+          <PixelIcon name="external" />
+          Ver sitio <span class="sr-only">(se abre en otra pestaña)</span>
+        </a>
+      )
+    }
+    {
+      project.repoUrl && (
+        <a class="action" href={project.repoUrl} target="_blank" rel="noopener noreferrer">
+          <PixelIcon name="code" />
+          Ver código <span class="sr-only">(se abre en otra pestaña)</span>
+        </a>
+      )
+    }
+    <button type="button" class="action js-only" data-walk-to={project.id}>
+      <PixelIcon name="map" />
+      Ir al edificio
+    </button>
+  </div>
+</section>

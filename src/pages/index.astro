@@ -1,0 +1,12 @@
+---
+import Console from '../components/Console.astro';
+import { PROFILE } from '../data/profile.ts';
+import Layout from '../layouts/Layout.astro';
+
+const title = `${PROFILE.name} · ${PROFILE.role}`;
+const description = `Portafolio de ${PROFILE.name}, ${PROFILE.role} en Santo Domingo: recorre Ciudad Primada, un pueblo 2D donde cada edificio es uno de sus proyectos.`;
+---
+
+<Layout title={title} description={description}>
+  <Console />
+</Layout>

@@ -1,0 +1,52 @@
+---
+import { PROFILE } from '../data/profile.ts';
+---
+
+<section
+  id="pantalla-mundo"
+  class="screen screen--top"
+  aria-label="Mundo del juego: Ciudad Primada"
+  aria-describedby="mundo-ayuda"
+  tabindex="0"
+  data-top-screen
+  data-scene="title"
+  data-dialog-state="closed"
+>
+  <canvas class="game-canvas" width="256" height="192" aria-hidden="true" data-game-canvas></canvas>
+
+  <p id="mundo-ayuda" class="sr-only">
+    Juego opcional: recorre Ciudad Primada, donde cada edificio es un proyecto. Flechas para moverte, Z o Enter para
+    interactuar, X o Shift para correr. Todo el contenido también está en la pantalla táctil.
+  </p>
+
+  <div class="title-card" data-title-card>
+    <p class="title-card__kicker">Portafolio de</p>
+    <p class="title-card__name">{PROFILE.shortName}</p>
+    <p class="title-card__role">{PROFILE.role}</p>
+    <button type="button" class="title-card__start" data-start data-game-control>
+      <span class="title-card__start-blink">Pulsa START</span>
+    </button>
+    <p class="title-card__foot">Edición Negra v2</p>
+  </div>
+
+  <p class="zone-banner" data-zone-banner data-visible="false" aria-hidden="true"></p>
+
+  <div class="dialog" data-dialog hidden>
+    <p class="dialog__speaker" data-dialog-speaker hidden></p>
+    <p class="dialog__text" aria-hidden="true">
+      <span class="dialog__line" data-dialog-line></span>
+      <span class="dialog__line" data-dialog-line></span>
+    </p>
+    <span class="dialog__arrow" data-dialog-arrow aria-hidden="true" hidden></span>
+  </div>
+
+  <div class="choice" data-choice role="listbox" aria-label="Respuesta" hidden>
+    <button type="button" class="choice__option" role="option" data-choice-option data-game-control>Sí</button>
+    <button type="button" class="choice__option" role="option" data-choice-option data-game-control>No</button>
+  </div>
+
+  <p class="screen-message" data-screen-message hidden></p>
+  <noscript>
+    <p class="screen-message">El pueblo necesita JavaScript. Todo el portafolio está en la pantalla de abajo.</p>
+  </noscript>
+</section>

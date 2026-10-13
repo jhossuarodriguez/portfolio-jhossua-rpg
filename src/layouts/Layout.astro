@@ -1,0 +1,61 @@
+---
+import '@fontsource/pixelify-sans/400.css';
+import '@fontsource/pixelify-sans/500.css';
+import '@fontsource/pixelify-sans/700.css';
+import '../styles/global.css';
+import { PROFILE } from '../data/profile.ts';
+import { PROJECTS } from '../data/projects.ts';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
+const sameAs = PROFILE.links.filter((link) => link.id !== 'email').map((link) => link.url);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: PROFILE.name,
+  jobTitle: PROFILE.role,
+  url: canonical,
+  address: { '@type': 'PostalAddress', addressLocality: 'Santo Domingo', addressCountry: 'DO' },
+  sameAs,
+  knowsAbout: PROFILE.skills.flatMap((group) => group.items),
+  subjectOf: PROJECTS.filter((project) => project.liveUrl).map((project) => ({
+    '@type': 'CreativeWork',
+    name: project.name,
+    url: project.liveUrl,
+  })),
+};
+---
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#05070c" />
+    <meta name="color-scheme" content="dark" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_DO" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/og.png', Astro.site ?? Astro.url).toString()} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline>
+      document.documentElement.classList.replace('no-js', 'js');
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body class="min-h-dvh bg-abyss font-pixel text-frost antialiased">
+    <a href="#pantalla-tactil" class="skip-link">Saltar al contenido del portafolio</a>
+    <slot />
+  </body>
+</html>
