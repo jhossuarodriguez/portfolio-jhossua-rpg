@@ -1,7 +1,7 @@
-import { createRng } from '../core/rng.ts';
-import { TILE } from '../core/types.ts';
-import type { WorldPalette } from './palettes.ts';
-import { createBuffer, fillRect, hLine, type PixelBuffer, setPixel, vLine } from './pixel.ts';
+import type { WorldPalette } from '@/game/art/palettes.ts';
+import { createBuffer, fillRect, hLine, type PixelBuffer, setPixel, vLine } from '@/game/art/pixel.ts';
+import { createRng } from '@/game/core/rng.ts';
+import { TILE } from '@/game/core/types.ts';
 
 /** Tipos de suelo. El mapa del pueblo es una grilla de estos. */
 export type GroundKind = 'grass' | 'tallGrass' | 'flowers' | 'path' | 'plaza' | 'sand' | 'water' | 'shore' | 'dock';

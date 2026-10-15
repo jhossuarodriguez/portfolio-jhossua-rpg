@@ -1,4 +1,4 @@
-import { clamp, SCREEN_HEIGHT, SCREEN_WIDTH, TILE, type Vec2 } from './types.ts';
+import { clamp, SCREEN_HEIGHT, SCREEN_WIDTH, TILE, type Vec2 } from '@/game/core/types.ts';
 
 function clampCenter(center: number, view: number, world: number): number {
   if (world <= view) return world / 2;

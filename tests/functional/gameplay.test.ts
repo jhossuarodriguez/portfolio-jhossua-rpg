@@ -1,12 +1,12 @@
+import { createHarness } from '@tests/support/game.ts';
 import { describe, expect, it } from 'vitest';
-import { PROJECTS } from '../../src/data/projects.ts';
-import { TURN_STEPS } from '../../src/game/core/actor.ts';
-import { VisitedRegistry } from '../../src/game/core/visited.ts';
-import { markerPosition } from '../../src/game/ui/minimap.ts';
-import { PRIMADA } from '../../src/game/world/primada.ts';
-import { introScript } from '../../src/game/world/story.ts';
-import { doorFrontTile, TownMap } from '../../src/game/world/town-map.ts';
-import { createHarness } from '../support/game.ts';
+import { PROJECTS } from '@/data/projects.ts';
+import { TURN_STEPS } from '@/game/core/actor.ts';
+import { VisitedRegistry } from '@/game/core/visited.ts';
+import { markerPosition } from '@/game/ui/minimap.ts';
+import { PRIMADA } from '@/game/world/primada.ts';
+import { introScript } from '@/game/world/story.ts';
+import { doorFrontTile, TownMap } from '@/game/world/town-map.ts';
 
 /**
  * Partidas completas sin gráficos: la simulación recibe botones paso a paso,

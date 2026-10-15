@@ -14,18 +14,18 @@ import {
   UnsignedByteType,
   WebGLRenderer,
 } from 'three';
-import { bakeGround, groundFrameCount, worldSprites } from '../art/bake.ts';
-import { type CharacterLook, characterSheet, FRAME_HEIGHT, FRAME_WIDTH, frameRect } from '../art/characters.ts';
-import type { WorldPalette } from '../art/palettes.ts';
-import { createBuffer, fillEllipse, hex, type PixelBuffer } from '../art/pixel.ts';
-import { type Actor, animationFrame, pixelPosition } from '../core/actor.ts';
-import { cameraFor, depthFor } from '../core/camera.ts';
-import type { Tint } from '../core/season.ts';
-import type { GameSimulation } from '../core/simulation.ts';
-import { SCREEN_HEIGHT, SCREEN_WIDTH, TILE } from '../core/types.ts';
-import type { TownMap } from '../world/town-map.ts';
-import { packAtlas } from './atlas.ts';
-import { buildSpriteBatch, type SpriteBatch, uvRect, writeQuadUv } from './batch.ts';
+import { bakeGround, groundFrameCount, worldSprites } from '@/game/art/bake.ts';
+import { type CharacterLook, characterSheet, FRAME_HEIGHT, FRAME_WIDTH, frameRect } from '@/game/art/characters.ts';
+import type { WorldPalette } from '@/game/art/palettes.ts';
+import { createBuffer, fillEllipse, hex, type PixelBuffer } from '@/game/art/pixel.ts';
+import { type Actor, animationFrame, pixelPosition } from '@/game/core/actor.ts';
+import { cameraFor, depthFor } from '@/game/core/camera.ts';
+import type { Tint } from '@/game/core/season.ts';
+import type { GameSimulation } from '@/game/core/simulation.ts';
+import { SCREEN_HEIGHT, SCREEN_WIDTH, TILE } from '@/game/core/types.ts';
+import { packAtlas } from '@/game/render/atlas.ts';
+import { buildSpriteBatch, type SpriteBatch, uvRect, writeQuadUv } from '@/game/render/batch.ts';
+import type { TownMap } from '@/game/world/town-map.ts';
 
 /** Textura de pixel art: sin suavizado, sin mipmaps, colores sRGB tal cual. */
 export function pixelTexture(image: PixelBuffer): DataTexture {

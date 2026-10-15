@@ -1,6 +1,6 @@
-import type { TouchView } from '../world/types.ts';
-import { all, required } from './dom.ts';
-import { parseSettings, type Settings } from './settings.ts';
+import { all, required } from '@/game/ui/dom.ts';
+import { parseSettings, type Settings } from '@/game/ui/settings.ts';
+import type { TouchView } from '@/game/world/types.ts';
 
 export type ViewId = TouchView | `project:${string}`;
 

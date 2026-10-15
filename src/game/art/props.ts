@@ -1,4 +1,4 @@
-import type { WorldPalette } from './palettes.ts';
+import type { WorldPalette } from '@/game/art/palettes.ts';
 import {
   createBuffer,
   fillEllipse,
@@ -13,7 +13,7 @@ import {
   setPixel,
   shade,
   vLine,
-} from './pixel.ts';
+} from '@/game/art/pixel.ts';
 
 /** Objetos del mundo que no son edificios ni personajes. */
 export type PropKind =

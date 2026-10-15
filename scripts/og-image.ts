@@ -3,13 +3,13 @@
  * Ciudad Primada con sus vecinos, a escala ×3. Se corre con `pnpm og`.
  */
 import { fileURLToPath } from 'node:url';
-import { bakeGround, worldSprites } from '../src/game/art/bake.ts';
-import { characterFrame, NPC_LOOKS, PLAYER_LOOK } from '../src/game/art/characters.ts';
-import { paletteFor } from '../src/game/art/palettes.ts';
-import { blit, crop } from '../src/game/art/pixel.ts';
-import { TILE } from '../src/game/core/types.ts';
-import { PRIMADA } from '../src/game/world/primada.ts';
-import { TownMap } from '../src/game/world/town-map.ts';
+import { bakeGround, worldSprites } from '@/game/art/bake.ts';
+import { characterFrame, NPC_LOOKS, PLAYER_LOOK } from '@/game/art/characters.ts';
+import { paletteFor } from '@/game/art/palettes.ts';
+import { blit, crop } from '@/game/art/pixel.ts';
+import { TILE } from '@/game/core/types.ts';
+import { PRIMADA } from '@/game/world/primada.ts';
+import { TownMap } from '@/game/world/town-map.ts';
 import { writePng } from './png.ts';
 
 const SCALE = 3;

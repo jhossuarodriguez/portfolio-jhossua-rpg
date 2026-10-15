@@ -1,6 +1,6 @@
-import type { WorldSprite } from '../art/bake.ts';
-import { depthFor } from '../core/camera.ts';
-import type { AtlasPlacement, PackedAtlas } from './atlas.ts';
+import type { WorldSprite } from '@/game/art/bake.ts';
+import { depthFor } from '@/game/core/camera.ts';
+import type { AtlasPlacement, PackedAtlas } from '@/game/render/atlas.ts';
 
 export interface UvRect {
   readonly u0: number;

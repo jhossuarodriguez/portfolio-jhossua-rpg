@@ -1,6 +1,6 @@
-import { SEASONS, type Season } from '../art/palettes.ts';
-import type { TimeOfDay } from '../core/season.ts';
-import type { KeyValueStore } from '../core/visited.ts';
+import { SEASONS, type Season } from '@/game/art/palettes.ts';
+import type { TimeOfDay } from '@/game/core/season.ts';
+import type { KeyValueStore } from '@/game/core/visited.ts';
 
 export type TextSpeed = 'slow' | 'normal' | 'fast';
 

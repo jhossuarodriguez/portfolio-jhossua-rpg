@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { drawMinimap, MINIMAP_SCALE } from '../../src/game/ui/minimap.ts';
-import { browserStore } from '../../src/game/ui/settings.ts';
-import { Sfx } from '../../src/game/ui/sfx.ts';
-import { PRIMADA } from '../../src/game/world/primada.ts';
-import { TownMap } from '../../src/game/world/town-map.ts';
+import { drawMinimap, MINIMAP_SCALE } from '@/game/ui/minimap.ts';
+import { browserStore } from '@/game/ui/settings.ts';
+import { Sfx } from '@/game/ui/sfx.ts';
+import { PRIMADA } from '@/game/world/primada.ts';
+import { TownMap } from '@/game/world/town-map.ts';
 
 afterEach(() => {
   vi.unstubAllGlobals();

@@ -9,12 +9,12 @@ import {
   RUN_SPEED,
   startMove,
   WALK_SPEED,
-} from '../../src/game/core/actor.ts';
-import { cameraFor, depthFor } from '../../src/game/core/camera.ts';
-import { buttonForKey, InputState } from '../../src/game/core/input.ts';
-import { computeLayout, pickScale } from '../../src/game/core/layout.ts';
-import { createRng, hashString } from '../../src/game/core/rng.ts';
-import { seasonForDate, seasonForMonth, TIME_TINTS, timeOfDay } from '../../src/game/core/season.ts';
+} from '@/game/core/actor.ts';
+import { cameraFor, depthFor } from '@/game/core/camera.ts';
+import { buttonForKey, InputState } from '@/game/core/input.ts';
+import { computeLayout, pickScale } from '@/game/core/layout.ts';
+import { createRng, hashString } from '@/game/core/rng.ts';
+import { seasonForDate, seasonForMonth, TIME_TINTS, timeOfDay } from '@/game/core/season.ts';
 import {
   assertNever,
   clamp,
@@ -27,7 +27,7 @@ import {
   step,
   TILE,
   tileKey,
-} from '../../src/game/core/types.ts';
+} from '@/game/core/types.ts';
 
 describe('utilidades de grilla', () => {
   it('step, directionBetween y OPPOSITE son coherentes', () => {

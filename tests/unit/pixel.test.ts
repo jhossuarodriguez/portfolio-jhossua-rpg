@@ -17,7 +17,7 @@ import {
   setPixel,
   shade,
   toHex,
-} from '../../src/game/art/pixel.ts';
+} from '@/game/art/pixel.ts';
 
 const RED = hex('#ff0000');
 const BLUE = hex('#0000ff');

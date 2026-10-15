@@ -1,6 +1,6 @@
 import { writeFileSync } from 'node:fs';
 import { deflateSync } from 'node:zlib';
-import type { PixelBuffer } from '../src/game/art/pixel.ts';
+import type { PixelBuffer } from '@/game/art/pixel.ts';
 
 /** Codificador PNG mínimo (RGBA, sin dependencias) para exportar arte del juego. */
 

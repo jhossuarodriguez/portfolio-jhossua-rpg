@@ -1,8 +1,8 @@
-import type { BuildingStyle } from '../art/buildings.ts';
-import type { NpcLookId } from '../art/characters.ts';
-import type { PropKind } from '../art/props.ts';
-import type { GroundKind } from '../art/tiles.ts';
-import type { Direction, Vec2 } from '../core/types.ts';
+import type { BuildingStyle } from '@/game/art/buildings.ts';
+import type { NpcLookId } from '@/game/art/characters.ts';
+import type { PropKind } from '@/game/art/props.ts';
+import type { GroundKind } from '@/game/art/tiles.ts';
+import type { Direction, Vec2 } from '@/game/core/types.ts';
 
 /** Vistas de la pantalla táctil a las que el mundo puede mandar al jugador. */
 export type TouchView = 'home' | 'projects' | 'about' | 'skills' | 'contact' | 'map' | 'options';

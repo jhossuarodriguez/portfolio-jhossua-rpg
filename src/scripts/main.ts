@@ -1,13 +1,13 @@
-import { PROJECTS } from '../data/projects.ts';
-import { SEASON_LABELS } from '../game/art/palettes.ts';
-import { computeLayout } from '../game/core/layout.ts';
-import { seasonForDate } from '../game/core/season.ts';
-import { VISITED_STORAGE_KEY, VisitedRegistry } from '../game/core/visited.ts';
-import type { Engine } from '../game/engine.ts';
-import { required } from '../game/ui/dom.ts';
-import { browserStore, loadSettings, type Settings, saveSettings } from '../game/ui/settings.ts';
-import { Sfx } from '../game/ui/sfx.ts';
-import { TouchScreen } from '../game/ui/touch-screen.ts';
+import { PROJECTS } from '@/data/projects.ts';
+import { SEASON_LABELS } from '@/game/art/palettes.ts';
+import { computeLayout } from '@/game/core/layout.ts';
+import { seasonForDate } from '@/game/core/season.ts';
+import { VISITED_STORAGE_KEY, VisitedRegistry } from '@/game/core/visited.ts';
+import type { Engine } from '@/game/engine.ts';
+import { required } from '@/game/ui/dom.ts';
+import { browserStore, loadSettings, type Settings, saveSettings } from '@/game/ui/settings.ts';
+import { Sfx } from '@/game/ui/sfx.ts';
+import { TouchScreen } from '@/game/ui/touch-screen.ts';
 
 /**
  * Punto de entrada del navegador. Primero deja usable la pantalla táctil (es HTML
@@ -106,7 +106,7 @@ async function bootGame(): Promise<void> {
     return;
   }
   try {
-    const { Engine } = await import('../game/engine.ts');
+    const { Engine } = await import('@/game/engine.ts');
     engine = new Engine({
       topScreen,
       controls: consoleRoot,

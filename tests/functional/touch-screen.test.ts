@@ -1,11 +1,11 @@
 import { within } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
+import { renderToHtml } from '@tests/support/dom.ts';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import BottomScreen from '../../src/components/BottomScreen.astro';
-import { PROJECTS } from '../../src/data/projects.ts';
-import { DEFAULT_SETTINGS } from '../../src/game/ui/settings.ts';
-import { TouchScreen, type TouchScreenHandlers } from '../../src/game/ui/touch-screen.ts';
-import { renderToHtml } from '../support/dom.ts';
+import BottomScreen from '@/components/BottomScreen.astro';
+import { PROJECTS } from '@/data/projects.ts';
+import { DEFAULT_SETTINGS } from '@/game/ui/settings.ts';
+import { TouchScreen, type TouchScreenHandlers } from '@/game/ui/touch-screen.ts';
 
 let html = '';
 

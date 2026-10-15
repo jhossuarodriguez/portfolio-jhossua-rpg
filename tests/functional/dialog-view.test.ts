@@ -1,9 +1,9 @@
 import userEvent from '@testing-library/user-event';
+import { renderToHtml } from '@tests/support/dom.ts';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import TopScreen from '../../src/components/TopScreen.astro';
-import { DialogState, paginate } from '../../src/game/core/dialog.ts';
-import { DialogView } from '../../src/game/ui/dialog-view.ts';
-import { renderToHtml } from '../support/dom.ts';
+import TopScreen from '@/components/TopScreen.astro';
+import { DialogState, paginate } from '@/game/core/dialog.ts';
+import { DialogView } from '@/game/ui/dialog-view.ts';
 
 const measure = (text: string): number => text.length * 6;
 let html = '';

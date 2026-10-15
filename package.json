@@ -27,7 +27,7 @@
     "test:e2e": "e2e run --exclude-tag agent",
     "test:e2e:agent": "e2e run --tag agent",
     "serve:e2e": "astro build && astro preview --host 127.0.0.1",
-    "og": "node scripts/og-image.ts",
+    "og": "node --import ./scripts/aliases.ts scripts/og-image.ts",
     "ci": "pnpm check && pnpm test && pnpm build && pnpm test:e2e"
   },
   "dependencies": {

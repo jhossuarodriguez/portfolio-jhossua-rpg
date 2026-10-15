@@ -1,7 +1,7 @@
-import { PROP_SHAPES } from '../art/props.ts';
-import type { GroundKind } from '../art/tiles.ts';
-import type { Vec2 } from '../core/types.ts';
-import type { TownMap } from '../world/town-map.ts';
+import { PROP_SHAPES } from '@/game/art/props.ts';
+import type { GroundKind } from '@/game/art/tiles.ts';
+import type { Vec2 } from '@/game/core/types.ts';
+import type { TownMap } from '@/game/world/town-map.ts';
 
 const GROUND_COLORS: Readonly<Record<GroundKind, string>> = {
   grass: '#4f9a52',

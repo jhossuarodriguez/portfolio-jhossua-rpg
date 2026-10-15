@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { bakeGround, groundFrameCount, worldSprites } from '../../src/game/art/bake.ts';
-import { type BuildingStyle, buildingArt, ROOF_OVERHANG } from '../../src/game/art/buildings.ts';
+import { bakeGround, groundFrameCount, worldSprites } from '@/game/art/bake.ts';
+import { type BuildingStyle, buildingArt, ROOF_OVERHANG } from '@/game/art/buildings.ts';
 import {
   characterFrame,
   characterSheet,
@@ -9,14 +9,14 @@ import {
   frameRect,
   NPC_LOOKS,
   PLAYER_LOOK,
-} from '../../src/game/art/characters.ts';
-import { paletteFor, SEASONS } from '../../src/game/art/palettes.ts';
-import { countOpaque, crop, flipX, getPixel } from '../../src/game/art/pixel.ts';
-import { PROP_SHAPES, type PropKind, propArt } from '../../src/game/art/props.ts';
-import { GROUND_FRAMES, GROUND_KINDS, groundTile, isGroundWalkable } from '../../src/game/art/tiles.ts';
-import { TILE } from '../../src/game/core/types.ts';
-import { PRIMADA } from '../../src/game/world/primada.ts';
-import { TownMap } from '../../src/game/world/town-map.ts';
+} from '@/game/art/characters.ts';
+import { paletteFor, SEASONS } from '@/game/art/palettes.ts';
+import { countOpaque, crop, flipX, getPixel } from '@/game/art/pixel.ts';
+import { PROP_SHAPES, type PropKind, propArt } from '@/game/art/props.ts';
+import { GROUND_FRAMES, GROUND_KINDS, groundTile, isGroundWalkable } from '@/game/art/tiles.ts';
+import { TILE } from '@/game/core/types.ts';
+import { PRIMADA } from '@/game/world/primada.ts';
+import { TownMap } from '@/game/world/town-map.ts';
 
 describe('tiles de suelo', () => {
   it.each(SEASONS)('cada suelo de %s es un tile 16×16 totalmente opaco', (season) => {

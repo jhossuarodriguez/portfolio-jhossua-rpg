@@ -1,13 +1,13 @@
+import { memoryStore } from '@tests/support/dom.ts';
 import { describe, expect, it } from 'vitest';
-import { VISITED_STORAGE_KEY, VisitedRegistry } from '../../src/game/core/visited.ts';
+import { VISITED_STORAGE_KEY, VisitedRegistry } from '@/game/core/visited.ts';
 import {
   DEFAULT_SETTINGS,
   loadSettings,
   parseSettings,
   SETTINGS_STORAGE_KEY,
   saveSettings,
-} from '../../src/game/ui/settings.ts';
-import { memoryStore } from '../support/dom.ts';
+} from '@/game/ui/settings.ts';
 
 describe('VisitedRegistry', () => {
   const ids = ['a', 'b', 'c'];

@@ -1,4 +1,4 @@
-import { DIRECTIONS, manhattan, sameTile, step, tileKey, type Vec2 } from './types.ts';
+import { DIRECTIONS, manhattan, sameTile, step, tileKey, type Vec2 } from '@/game/core/types.ts';
 
 export type Passable = (tile: Vec2) => boolean;
 

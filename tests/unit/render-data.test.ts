@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import type { WorldSprite } from '../../src/game/art/bake.ts';
-import { createBuffer, fillRect, hex, type PixelBuffer } from '../../src/game/art/pixel.ts';
-import { nextPowerOfTwo, packAtlas } from '../../src/game/render/atlas.ts';
-import { buildSpriteBatch, uvRect, writeQuadUv } from '../../src/game/render/batch.ts';
+import type { WorldSprite } from '@/game/art/bake.ts';
+import { createBuffer, fillRect, hex, type PixelBuffer } from '@/game/art/pixel.ts';
+import { nextPowerOfTwo, packAtlas } from '@/game/render/atlas.ts';
+import { buildSpriteBatch, uvRect, writeQuadUv } from '@/game/render/batch.ts';
 
 function solid(width: number, height: number): PixelBuffer {
   const buffer = createBuffer(width, height);

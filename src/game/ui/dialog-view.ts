@@ -1,5 +1,5 @@
-import type { DialogState } from '../core/dialog.ts';
-import { all, required } from './dom.ts';
+import type { DialogState } from '@/game/core/dialog.ts';
+import { all, required } from '@/game/ui/dom.ts';
 
 export interface DialogHandlers {
   /** Toque/clic en el cuadro: igual que el botón A. */

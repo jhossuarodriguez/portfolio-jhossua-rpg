@@ -1,4 +1,4 @@
-import { type Direction, step, TILE, type Vec2 } from './types.ts';
+import { type Direction, step, TILE, type Vec2 } from '@/game/core/types.ts';
 
 /** Píxeles por paso de simulación (60 Hz): caminar = 1 tile cada 16 pasos; correr, el doble. */
 export const WALK_SPEED = 1;

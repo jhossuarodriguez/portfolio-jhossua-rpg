@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { PROJECTS } from '../../src/data/projects.ts';
-import { findPath } from '../../src/game/core/pathfinding.ts';
-import { sameTile, type Vec2 } from '../../src/game/core/types.ts';
-import { PRIMADA } from '../../src/game/world/primada.ts';
-import { doorFrontTile, doorTile, TownMap } from '../../src/game/world/town-map.ts';
-import type { TownDef } from '../../src/game/world/types.ts';
+import { PROJECTS } from '@/data/projects.ts';
+import { findPath } from '@/game/core/pathfinding.ts';
+import { sameTile, type Vec2 } from '@/game/core/types.ts';
+import { PRIMADA } from '@/game/world/primada.ts';
+import { doorFrontTile, doorTile, TownMap } from '@/game/world/town-map.ts';
+import type { TownDef } from '@/game/world/types.ts';
 
 function gridFromAscii(rows: readonly string[]): (tile: Vec2) => boolean {
   return (tile) => rows[tile.y]?.[tile.x] === '.';

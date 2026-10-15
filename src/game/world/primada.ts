@@ -1,7 +1,7 @@
-import { PROFILE } from '../../data/profile.ts';
-import { CATEGORY_LABELS, type ProjectId, requireProject } from '../../data/projects.ts';
-import type { BuildingStyle } from '../art/buildings.ts';
-import type { BuildingDef, NpcDef, PropDef, TownDef, ZoneDef } from './types.ts';
+import { PROFILE } from '@/data/profile.ts';
+import { CATEGORY_LABELS, type ProjectId, requireProject } from '@/data/projects.ts';
+import type { BuildingStyle } from '@/game/art/buildings.ts';
+import type { BuildingDef, NpcDef, PropDef, TownDef, ZoneDef } from '@/game/world/types.ts';
 
 /**
  * Ciudad Primada: el pueblo del portafolio. Calles con nombres de la Zona Colonial

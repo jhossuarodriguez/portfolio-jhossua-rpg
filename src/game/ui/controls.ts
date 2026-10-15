@@ -1,5 +1,5 @@
-import { BUTTONS, type Button, buttonForKey, type InputState } from '../core/input.ts';
-import { all, isInteractiveTarget } from './dom.ts';
+import { BUTTONS, type Button, buttonForKey, type InputState } from '@/game/core/input.ts';
+import { all, isInteractiveTarget } from '@/game/ui/dom.ts';
 
 function isButton(value: string | undefined): value is Button {
   return (BUTTONS as readonly string[]).includes(value ?? '');

@@ -1,4 +1,4 @@
-import type { Season } from '../art/palettes.ts';
+import type { Season } from '@/game/art/palettes.ts';
 
 /**
  * Estaciones como en la quinta generación de los RPG portátiles: rotan cada mes

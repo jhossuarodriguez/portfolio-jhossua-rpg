@@ -9,7 +9,11 @@
     "useUnknownInCatchVariables": true,
     "noImplicitAny": true,
     "allowJs": false,
-    "checkJs": false
+    "checkJs": false,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@tests/*": ["./tests/*"]
+    }
   },
   "include": [".astro/types.d.ts", "src/**/*", "tests/**/*", "scripts/**/*", "*.config.ts"],
   "exclude": ["dist", "node_modules", ".e2e", "coverage"]

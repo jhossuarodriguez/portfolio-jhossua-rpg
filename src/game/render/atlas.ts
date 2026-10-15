@@ -1,4 +1,4 @@
-import { blit, createBuffer, type PixelBuffer } from '../art/pixel.ts';
+import { blit, createBuffer, type PixelBuffer } from '@/game/art/pixel.ts';
 
 export interface AtlasPlacement {
   readonly x: number;

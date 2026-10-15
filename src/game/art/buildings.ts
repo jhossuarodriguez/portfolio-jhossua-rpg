@@ -1,6 +1,4 @@
-import { hashString } from '../core/rng.ts';
-import { TILE } from '../core/types.ts';
-import type { WorldPalette } from './palettes.ts';
+import type { WorldPalette } from '@/game/art/palettes.ts';
 import {
   blit,
   createBuffer,
@@ -15,7 +13,9 @@ import {
   setPixel,
   shade,
   vLine,
-} from './pixel.ts';
+} from '@/game/art/pixel.ts';
+import { hashString } from '@/game/core/rng.ts';
+import { TILE } from '@/game/core/types.ts';
 
 export type RoofStyle = 'tile' | 'flat' | 'gable' | 'scaffold';
 export type WindowStyle = 'arched' | 'square' | 'wide';

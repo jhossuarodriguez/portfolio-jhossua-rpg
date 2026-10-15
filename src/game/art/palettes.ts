@@ -1,4 +1,4 @@
-import { hex, type RGBA } from './pixel.ts';
+import { hex, type RGBA } from '@/game/art/pixel.ts';
 
 export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
 

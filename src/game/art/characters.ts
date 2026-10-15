@@ -1,5 +1,5 @@
-import type { Direction } from '../core/types.ts';
-import { blit, createBuffer, flipX, fromRows, hex, mirrorRows, outline, type PixelBuffer } from './pixel.ts';
+import { blit, createBuffer, flipX, fromRows, hex, mirrorRows, outline, type PixelBuffer } from '@/game/art/pixel.ts';
+import type { Direction } from '@/game/core/types.ts';
 
 /**
  * Personajes de 16x24 (los pies en su tile, la cabeza invade el tile de arriba).

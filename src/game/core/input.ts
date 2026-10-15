@@ -1,4 +1,4 @@
-import type { Direction } from './types.ts';
+import type { Direction } from '@/game/core/types.ts';
 
 /** Botones lógicos de la "consola". Teclado, controles táctiles y gamepad escriben aquí. */
 export type Button = Direction | 'a' | 'b' | 'start' | 'select';

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DialogState, paginate, wrapText } from '../../src/game/core/dialog.ts';
+import { DialogState, paginate, wrapText } from '@/game/core/dialog.ts';
 
 const measure = (text: string): number => text.length;
 

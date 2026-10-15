@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { PROFILE } from '../../src/data/profile.ts';
-import { CATEGORY_LABELS, getProject, PROJECTS, requireProject, STATUS_LABELS } from '../../src/data/projects.ts';
+import { PROFILE } from '@/data/profile.ts';
+import { CATEGORY_LABELS, getProject, PROJECTS, requireProject, STATUS_LABELS } from '@/data/projects.ts';
 
 describe('proyectos', () => {
   it('tienen ids únicos en formato slug', () => {

@@ -1,11 +1,11 @@
-import { hashString } from '../core/rng.ts';
-import { TILE, type Vec2 } from '../core/types.ts';
-import { buildingRect, propRect, type TownMap } from '../world/town-map.ts';
-import { buildingArt } from './buildings.ts';
-import type { WorldPalette } from './palettes.ts';
-import { blit, createBuffer, hLine, type PixelBuffer, setPixel, vLine } from './pixel.ts';
-import { PROP_SHAPES, propArt } from './props.ts';
-import { GROUND_FRAMES, type GroundKind, groundTile } from './tiles.ts';
+import { buildingArt } from '@/game/art/buildings.ts';
+import type { WorldPalette } from '@/game/art/palettes.ts';
+import { blit, createBuffer, hLine, type PixelBuffer, setPixel, vLine } from '@/game/art/pixel.ts';
+import { PROP_SHAPES, propArt } from '@/game/art/props.ts';
+import { GROUND_FRAMES, type GroundKind, groundTile } from '@/game/art/tiles.ts';
+import { hashString } from '@/game/core/rng.ts';
+import { TILE, type Vec2 } from '@/game/core/types.ts';
+import { buildingRect, propRect, type TownMap } from '@/game/world/town-map.ts';
 
 const GRASSY: ReadonlySet<GroundKind> = new Set(['grass', 'tallGrass', 'flowers']);
 const PAVED: ReadonlySet<GroundKind> = new Set(['path', 'plaza', 'sand', 'dock']);

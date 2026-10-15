@@ -1,8 +1,8 @@
-import { InputState } from '../../src/game/core/input.ts';
-import { type GameEvent, GameSimulation } from '../../src/game/core/simulation.ts';
-import { PRIMADA } from '../../src/game/world/primada.ts';
-import { TownMap } from '../../src/game/world/town-map.ts';
-import type { TownDef } from '../../src/game/world/types.ts';
+import { InputState } from '@/game/core/input.ts';
+import { type GameEvent, GameSimulation } from '@/game/core/simulation.ts';
+import { PRIMADA } from '@/game/world/primada.ts';
+import { TownMap } from '@/game/world/town-map.ts';
+import type { TownDef } from '@/game/world/types.ts';
 
 /** Medición de texto de los tests: 6 px por carácter (aprox. la fuente pixel a 11 px). */
 export const measure = (text: string): number => text.length * 6;

@@ -1,5 +1,3 @@
-import { doorFrontTile, type TownMap } from '../world/town-map.ts';
-import type { GameAction, NpcDef, ZoneDef } from '../world/types.ts';
 import {
   type Actor,
   advanceMove,
@@ -10,11 +8,11 @@ import {
   startMove,
   TURN_STEPS,
   WALK_SPEED,
-} from './actor.ts';
-import { type DialogResult, type DialogScript, DialogState, type MeasureText, paginate } from './dialog.ts';
-import type { InputState } from './input.ts';
-import { findPath } from './pathfinding.ts';
-import { createRng, type Rng } from './rng.ts';
+} from '@/game/core/actor.ts';
+import { type DialogResult, type DialogScript, DialogState, type MeasureText, paginate } from '@/game/core/dialog.ts';
+import type { InputState } from '@/game/core/input.ts';
+import { findPath } from '@/game/core/pathfinding.ts';
+import { createRng, type Rng } from '@/game/core/rng.ts';
 import {
   DIRECTIONS,
   type Direction,
@@ -25,7 +23,9 @@ import {
   sameTile,
   step,
   type Vec2,
-} from './types.ts';
+} from '@/game/core/types.ts';
+import { doorFrontTile, type TownMap } from '@/game/world/town-map.ts';
+import type { GameAction, NpcDef, ZoneDef } from '@/game/world/types.ts';
 
 export interface NpcActor {
   readonly def: NpcDef;

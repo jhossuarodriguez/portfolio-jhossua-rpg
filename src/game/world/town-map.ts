@@ -1,7 +1,7 @@
-import { PROP_SHAPES } from '../art/props.ts';
-import { type GroundKind, isGroundWalkable } from '../art/tiles.ts';
-import { tileKey, type Vec2 } from '../core/types.ts';
-import type { BuildingDef, PropDef, Rect, TownDef, ZoneDef } from './types.ts';
+import { PROP_SHAPES } from '@/game/art/props.ts';
+import { type GroundKind, isGroundWalkable } from '@/game/art/tiles.ts';
+import { tileKey, type Vec2 } from '@/game/core/types.ts';
+import type { BuildingDef, PropDef, Rect, TownDef, ZoneDef } from '@/game/world/types.ts';
 
 /** Lo que hay "para hacer" en un tile al pulsar A delante de él. */
 export type Interactable =

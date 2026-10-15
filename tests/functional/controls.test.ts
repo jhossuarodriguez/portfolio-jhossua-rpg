@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { InputState } from '../../src/game/core/input.ts';
-import { bindKeyboard, bindVirtualPad, pollGamepads } from '../../src/game/ui/controls.ts';
-import { isInteractiveTarget } from '../../src/game/ui/dom.ts';
+import { InputState } from '@/game/core/input.ts';
+import { bindKeyboard, bindVirtualPad, pollGamepads } from '@/game/ui/controls.ts';
+import { isInteractiveTarget } from '@/game/ui/dom.ts';
 
 const cleanups: Array<() => void> = [];
 

@@ -1,5 +1,5 @@
-import { PROFILE } from '../../data/profile.ts';
-import type { DialogScript } from '../core/dialog.ts';
+import { PROFILE } from '@/data/profile.ts';
+import type { DialogScript } from '@/game/core/dialog.ts';
 
 /** Presentación al pulsar START. Las instrucciones cambian según haya pantalla táctil o teclado. */
 export function introScript(isTouch: boolean): DialogScript {
