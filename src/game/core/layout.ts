@@ -1,4 +1,4 @@
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from './types.ts';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/game/core/types.ts';
 
 /**
  * - `ds`: pantallas apiladas con la cruceta y los botones a los lados (la consola abierta).
@@ -20,7 +20,7 @@ export interface LayoutInput {
   readonly viewportHeight: number;
 }
 
-/** Medidas de la carcasa en píxeles CSS (deben coincidir con `global.css`). */
+/** Medidas de la carcasa en píxeles CSS (deben coincidir con las clases de Console.astro y ControlPad.astro). */
 export const CHROME = {
   sidePanel: 132,
   controlsRow: 136,

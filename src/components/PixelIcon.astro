@@ -23,6 +23,7 @@ export type IconName = keyof typeof ICONS;
 
 interface Props {
   name: IconName;
+  /** Por defecto mide 1em y toma el color del texto; `class` reemplaza esas clases. */
   class?: string;
 }
 
@@ -46,7 +47,7 @@ const path = ICONS[name]
 ---
 
 <svg
-  class:list={['pixel-icon', className]}
+  class={className ?? 'size-[1em] flex-none fill-current'}
   viewBox="0 0 8 8"
   width="16"
   height="16"

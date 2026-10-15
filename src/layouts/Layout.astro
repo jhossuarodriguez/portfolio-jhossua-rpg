@@ -2,9 +2,9 @@
 import '@fontsource/pixelify-sans/400.css';
 import '@fontsource/pixelify-sans/500.css';
 import '@fontsource/pixelify-sans/700.css';
-import '../styles/global.css';
-import { PROFILE } from '../data/profile.ts';
-import { PROJECTS } from '../data/projects.ts';
+import '@/styles/global.css';
+import { PROFILE } from '@/data/profile.ts';
+import { PROJECTS } from '@/data/projects.ts';
 
 interface Props {
   title: string;
@@ -54,8 +54,11 @@ const jsonLd = {
     </script>
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
-  <body class="min-h-dvh bg-abyss font-pixel text-frost antialiased">
-    <a href="#pantalla-tactil" class="skip-link">Saltar al contenido del portafolio</a>
+  <body class="min-h-dvh bg-white font-pixel text-frost antialiased">
+    <a
+      href="#pantalla-tactil"
+      class="absolute -top-16 left-4 z-50 rounded-lg bg-gold px-3.5 py-2 font-bold text-abyss focus:top-4"
+    >Saltar al contenido del portafolio</a>
     <slot />
   </body>
 </html>

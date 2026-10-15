@@ -1,34 +1,71 @@
 ---
-import { PROFILE } from '../data/profile.ts';
-import BottomScreen from './BottomScreen.astro';
-import ControlPad from './ControlPad.astro';
-import TopScreen from './TopScreen.astro';
+import BottomScreen from '@/components/BottomScreen.astro';
+import ControlPad from '@/components/ControlPad.astro';
+import TopScreen from '@/components/TopScreen.astro';
+import { PROFILE } from '@/data/profile.ts';
+
+const speaker =
+  'hidden size-[64px] bg-[radial-gradient(circle,#000_1.6px,transparent_2px)] bg-size-[12px_12px] opacity-70 in-data-[layout=ds]:block';
 ---
 
-<main class="console" data-console data-layout="stacked">
+<main
+  class:list={[
+    'flex min-h-dvh flex-col items-center justify-center gap-4 p-(--pad)',
+    /*
+     * main.ts ajusta las tres primeras al tamaño de la ventana con `computeLayout`; estos valores son el respaldo sin JS.
+     * --screen-w × --screen-h: cada pantalla, en 4:3.
+     * --pixel-scale: px CSS por píxel de consola (tan(atan2()) divide dos longitudes); lo usa `zoom` en TopScreen.
+     * --dpx: lo mismo como longitud, para el marco de las pantallas y la letra de la pantalla táctil.
+     */
+    '[--screen-w:min(calc(100vw_-_32px),512px)] [--screen-h:calc(var(--screen-w)*0.75)]',
+    '[--pixel-scale:tan(atan2(var(--screen-w),256px))] [--dpx:calc(var(--screen-w)/256)]',
+    // Medidas de la carcasa: deben coincidir con CHROME en src/game/core/layout.ts.
+    '[--pad:16px] [--side-panel:132px] compact:[--pad:8px]',
+  ]}
+  data-console
+  data-layout="stacked"
+>
   <h1 class="sr-only">{PROFILE.name}, {PROFILE.role}: portafolio interactivo</h1>
-  <div class="console__shell">
-    <span class="console__speaker console__speaker--left" aria-hidden="true"></span>
-    <span class="console__speaker console__speaker--right" aria-hidden="true"></span>
-    <div class="console__area console__area--top">
+  <div
+    class:list={[
+      'relative grid items-center justify-items-center rounded-[28px] p-(--pad) shadow-console compact:rounded-[20px]',
+      'bg-[linear-gradient(160deg,#1d2333_0%,#0b0e15_42%,#07090d_70%,#121725_100%)]',
+      // stacked (móvil en vertical): pantallas apiladas y controles debajo.
+      "grid-cols-[1fr_1fr] [grid-template-areas:'top_top'_'hinge_hinge'_'bottom_bottom'_'dpad_actions']",
+      // ds (la consola abierta): pantallas apiladas, con la cruceta y los botones a los lados.
+      'in-data-[layout=ds]:grid-cols-[var(--side-panel)_auto_var(--side-panel)] in-data-[layout=ds]:gap-x-(--pad)',
+      "in-data-[layout=ds]:[grid-template-areas:'speaker-left_top_speaker-right'_'hinge_hinge_hinge'_'dpad_bottom_actions']",
+      // side (pantallas anchas y bajas): las dos pantallas lado a lado.
+      'in-data-[layout=side]:grid-cols-[var(--side-panel)_auto_auto_var(--side-panel)] in-data-[layout=side]:gap-x-(--pad)',
+      "in-data-[layout=side]:[grid-template-areas:'dpad_top_bottom_actions']",
+    ]}
+  >
+    <span class:list={[speaker, '[grid-area:speaker-left]']} aria-hidden="true"></span>
+    <span class:list={[speaker, '[grid-area:speaker-right]']} aria-hidden="true"></span>
+    <div class="[grid-area:top]">
       <TopScreen />
     </div>
-    <div class="console__hinge" aria-hidden="true">
-      <span class="console__led"></span>
+    <div
+      class="relative flex h-[28px] w-full items-center justify-center [grid-area:hinge] before:h-[10px] before:w-[70%] before:rounded-full before:bg-[linear-gradient(180deg,#232a3b,#0b0e15)] before:shadow-hinge in-data-[layout=side]:hidden"
+      aria-hidden="true"
+    >
+      <span class="absolute right-[8%] size-[7px] rounded-full bg-ice shadow-led"></span>
     </div>
-    <div class="console__area console__area--dpad">
+    <div class="justify-self-center [grid-area:dpad] in-data-[layout=stacked]:justify-self-start">
       <ControlPad side="dpad" />
     </div>
-    <div class="console__area console__area--bottom">
+    <div class="[grid-area:bottom]">
       <BottomScreen />
     </div>
-    <div class="console__area console__area--actions">
+    <div class="justify-self-center [grid-area:actions] in-data-[layout=stacked]:justify-self-end">
       <ControlPad side="actions" />
     </div>
   </div>
 
-  <aside class="key-hints js-only" aria-label="Controles de teclado">
-    <dl>
+  <aside class="hidden text-[14px] text-mist pointer-fine:block no-js:hidden!" aria-label="Controles de teclado">
+    <dl
+      class="flex flex-wrap justify-center gap-x-[1.4em] gap-y-[0.5em] *:flex *:items-center *:gap-[0.45em] [&_dt]:flex [&_dt]:items-center [&_dt]:gap-[0.25em] [&_dt]:text-frost"
+    >
       <div><dt><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd></dt><dd>Moverse</dd></div>
       <div><dt><kbd>Z</kbd> o <kbd>Enter</kbd></dt><dd>A: hablar, leer, aceptar</dd></div>
       <div><dt><kbd>X</kbd> o <kbd>Shift</kbd></dt><dd>B: cancelar (mantén para correr)</dd></div>
@@ -37,7 +74,7 @@ import TopScreen from './TopScreen.astro';
     </dl>
   </aside>
 
-  <footer class="site-footer">
+  <footer class="max-w-[60ch] text-center text-[13px] text-[#6f7f99]">
     <p>
       Hecho por {PROFILE.name} con Astro, three.js y Tailwind. El pueblo, los personajes y los edificios son
       originales y se dibujan con código.
@@ -46,5 +83,5 @@ import TopScreen from './TopScreen.astro';
 </main>
 
 <script>
-  import '../scripts/main.ts';
+  import '@/scripts/main.ts';
 </script>

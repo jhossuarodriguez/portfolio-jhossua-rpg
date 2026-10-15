@@ -1,15 +1,15 @@
 import { within } from '@testing-library/dom';
+import { renderComponent } from '@tests/support/dom.ts';
 import { describe, expect, it } from 'vitest';
-import BottomScreen from '../../src/components/BottomScreen.astro';
-import Console from '../../src/components/Console.astro';
-import ControlPad from '../../src/components/ControlPad.astro';
-import PixelIcon from '../../src/components/PixelIcon.astro';
-import ProjectDetail from '../../src/components/ProjectDetail.astro';
-import TopScreen from '../../src/components/TopScreen.astro';
-import { PROFILE } from '../../src/data/profile.ts';
-import { PROJECTS, requireProject } from '../../src/data/projects.ts';
-import { PRIMADA } from '../../src/game/world/primada.ts';
-import { renderComponent } from '../support/dom.ts';
+import BottomScreen from '@/components/BottomScreen.astro';
+import Console from '@/components/Console.astro';
+import ControlPad from '@/components/ControlPad.astro';
+import PixelIcon from '@/components/PixelIcon.astro';
+import ProjectDetail from '@/components/ProjectDetail.astro';
+import TopScreen from '@/components/TopScreen.astro';
+import { PROFILE } from '@/data/profile.ts';
+import { PROJECTS, requireProject } from '@/data/projects.ts';
+import { PRIMADA } from '@/game/world/primada.ts';
 
 describe('<PixelIcon>', () => {
   it('es un SVG decorativo de un solo path', async () => {
@@ -82,7 +82,7 @@ describe('<BottomScreen>', () => {
 
   it('el mapa tiene un marcador por edificio con nombre accesible', async () => {
     const { root } = await renderComponent(BottomScreen);
-    const markers = root.querySelectorAll<HTMLButtonElement>('.minimap__marker');
+    const markers = root.querySelectorAll<HTMLButtonElement>('[data-minimap] [data-walk-to]');
     expect(markers).toHaveLength(PRIMADA.buildings.length);
     for (const marker of markers) {
       expect(marker.getAttribute('aria-label')).toMatch(/^Ir a /);

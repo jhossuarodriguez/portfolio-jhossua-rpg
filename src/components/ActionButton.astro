@@ -1,0 +1,35 @@
+---
+interface Props {
+  /** Con `href` es un enlace; sin él, un `<button>`. */
+  href?: string;
+  target?: string;
+  rel?: string;
+  /** La acción principal de la vista: rellena de cian. */
+  primary?: boolean;
+  class?: string;
+  [data: `data-${string}`]: string | boolean;
+}
+
+/** Botón de acción de la pantalla táctil. */
+const { href, target, rel, primary = false, class: className, ...data } = Astro.props;
+
+const classes = [
+  'inline-flex items-center gap-1.75 rounded-lg border px-3 py-1.5 shadow-action',
+  primary
+    ? 'border-ice bg-ice font-bold text-abyss hover:bg-[#6dd7fa]'
+    : 'border-slate bg-steel font-medium text-frost hover:border-ice',
+  className,
+];
+---
+
+{
+  href ? (
+    <a class:list={classes} href={href} target={target} rel={rel} {...data}>
+      <slot />
+    </a>
+  ) : (
+    <button type="button" class:list={classes} {...data}>
+      <slot />
+    </button>
+  )
+}

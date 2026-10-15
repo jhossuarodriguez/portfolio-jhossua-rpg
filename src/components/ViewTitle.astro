@@ -1,0 +1,20 @@
+---
+interface Props {
+  id: string;
+  /** `h2` para las secciones; `h3` para las fichas de proyecto. */
+  level?: 2 | 3;
+}
+
+const { id, level = 2 } = Astro.props;
+const Heading = level === 3 ? 'h3' : 'h2';
+---
+
+{/* tabindex="-1": la pantalla táctil le pasa el foco al cambiar de vista. */}
+<Heading
+  id={id}
+  class="mb-1.5 text-[1.35em] leading-[1.1] font-bold text-frost focus:outline-none"
+  tabindex="-1"
+  data-view-title
+>
+  <slot />
+</Heading>

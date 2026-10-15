@@ -1,9 +1,15 @@
 ---
-import { PROFILE } from '../data/profile.ts';
-import { CATEGORY_LABELS, PROJECTS } from '../data/projects.ts';
-import { PRIMADA } from '../game/world/primada.ts';
-import PixelIcon, { type IconName } from './PixelIcon.astro';
-import ProjectDetail from './ProjectDetail.astro';
+import ActionButton from '@/components/ActionButton.astro';
+import Chip from '@/components/Chip.astro';
+import PixelIcon, { type IconName } from '@/components/PixelIcon.astro';
+import ProjectDetail from '@/components/ProjectDetail.astro';
+import Screen from '@/components/Screen.astro';
+import View from '@/components/View.astro';
+import ViewTitle from '@/components/ViewTitle.astro';
+import VisitedMark from '@/components/VisitedMark.astro';
+import { PROFILE } from '@/data/profile.ts';
+import { CATEGORY_LABELS, PROJECTS } from '@/data/projects.ts';
+import { PRIMADA } from '@/game/world/primada.ts';
 
 const MENU: ReadonlyArray<{ view: string; label: string; icon: IconName; hint: string }> = [
   { view: 'projects', label: 'Proyectos', icon: 'projects', hint: `${PROJECTS.length} en el pueblo` },
@@ -30,121 +36,154 @@ const markers = PRIMADA.buildings.map((building) => ({
   isProject: building.kind === 'project',
 }));
 const email = PROFILE.links.find((link) => link.id === 'email');
+
+// Aquí todo se mide en `em` (`--spacing: 0.25em`): la pantalla crece con su tamaño de letra.
+const subtitle = 'mt-3.5 mb-1.5 font-bold text-ice';
+const list = 'flex flex-col gap-1.5';
+const row = 'rounded-lg border border-slate bg-steel/75 text-frost hover:border-ice';
+const setting = 'flex items-center justify-between gap-4 rounded-lg border border-slate bg-steel/75 px-2.75 py-1.75';
+const select = 'rounded-[6px] border border-slate bg-night px-1.5 py-0.5 text-frost';
+const navButton =
+  'inline-flex items-center gap-1.75 rounded-full border border-slate bg-steel px-3 py-1 text-[0.9em] text-frost disabled:opacity-40';
 ---
 
-<section id="pantalla-tactil" class="screen screen--bottom" aria-label="Pantalla táctil: el portafolio" data-touch-screen>
-  <header class="status-bar">
+<Screen
+  id="pantalla-tactil"
+  class="flex flex-col bg-[repeating-linear-gradient(180deg,rgb(255_255_255/0.018)_0_2px,transparent_2px_4px),linear-gradient(180deg,#111a30,var(--color-night))] text-[clamp(13px,calc(var(--dpx)*7.4),17px)] leading-[1.35] [--spacing:0.25em]"
+  aria-label="Pantalla táctil: el portafolio"
+  data-touch-screen
+>
+  <header
+    class="flex flex-none justify-between gap-3 border-b border-ice/25 bg-[rgb(5_8_16/0.6)] px-3.25 py-1.25 text-[0.82em] text-mist"
+  >
     <span data-clock>--:--</span>
-    <span class="js-only" data-season-label>Estación</span>
-    <span>Visitados <strong data-visited-count>0</strong>/<span data-visited-total>{PROJECTS.length}</span></span>
+    <span class="no-js:hidden!" data-season-label>Estación</span>
+    <span>
+      Visitados <strong class="text-gold" data-visited-count>0</strong>/<span data-visited-total>{PROJECTS.length}</span>
+    </span>
   </header>
 
-  <div class="views">
-    <section class="view view--home" data-view="home" aria-labelledby="vista-menu" data-active>
-      <h2 id="vista-menu" class="view__title" tabindex="-1" data-view-title>{PROFILE.name}</h2>
+  <div class="relative min-h-0 flex-1 overflow-hidden no-js:overflow-y-auto">
+    <View data-view="home" aria-labelledby="vista-menu" data-active>
+      <ViewTitle id="vista-menu">{PROFILE.name}</ViewTitle>
       <p class="mb-3 text-mist">{PROFILE.role} en {PROFILE.location}. Explora el pueblo o ve directo a lo que buscas.</p>
       <nav aria-label="Secciones del portafolio">
-        <ul class="menu-grid">
+        <ul class="grid grid-cols-2 gap-2">
           {
             MENU.map((item) => (
               <li>
-                <a class="menu-button" href={`#vista-${item.view}`} data-open-view={item.view}>
-                  <PixelIcon name={item.icon} class="menu-button__icon" />
-                  <span class="menu-button__label">{item.label}</span>
-                  <span class="menu-button__hint">{item.hint}</span>
+                <a
+                  class="grid h-full grid-cols-[auto_1fr] grid-rows-[auto_auto] items-center gap-x-2.25 rounded-[10px] border border-slate border-t-ice/55 bg-[linear-gradient(180deg,#223052,var(--color-steel))] px-2.5 py-2.25 text-frost shadow-menu hover:border-ice active:translate-y-[2px] active:shadow-menu-pressed"
+                  href={`#vista-${item.view}`}
+                  data-open-view={item.view}
+                >
+                  <PixelIcon name={item.icon} class="row-span-2 size-[1.6em] fill-ice" />
+                  <span class="font-bold">{item.label}</span>
+                  <span class="truncate text-[0.8em] text-mist">{item.hint}</span>
                 </a>
               </li>
             ))
           }
         </ul>
       </nav>
-    </section>
+    </View>
 
-    <section class="view" id="vista-projects" data-view="projects" aria-labelledby="titulo-proyectos">
-      <h2 id="titulo-proyectos" class="view__title" tabindex="-1" data-view-title>Proyectos</h2>
-      <ul class="project-list">
+    <View id="vista-projects" data-view="projects" aria-labelledby="titulo-proyectos">
+      <ViewTitle id="titulo-proyectos">Proyectos</ViewTitle>
+      <ul class={list}>
         {
           PROJECTS.map((project) => (
             <li>
-              <a class="project-row" href={`#proyecto-${project.id}`} data-open-project={project.id}>
-                <span class="project-row__name">{project.name}</span>
-                <span class="project-row__tagline">{project.tagline}</span>
-                <span class="project-row__meta">
-                  <span class="chip chip--quiet">{CATEGORY_LABELS[project.category]}</span>
-                  <span class="visited-mark" data-visited-mark={project.id} data-visited="false" aria-label="Sin visitar" />
+              <a
+                class:list={[row, 'grid grid-cols-[1fr_auto] gap-x-2.5 gap-y-0.5 px-2.5 py-2']}
+                href={`#proyecto-${project.id}`}
+                data-open-project={project.id}
+              >
+                <span class="font-bold">{project.name}</span>
+                <span class="col-start-1 text-[0.86em] text-mist">{project.tagline}</span>
+                <span class="col-start-2 row-[1/span_2] flex items-center gap-1.5">
+                  <Chip tone="quiet">{CATEGORY_LABELS[project.category]}</Chip>
+                  <VisitedMark projectId={project.id} />
                 </span>
               </a>
             </li>
           ))
         }
       </ul>
-    </section>
+    </View>
 
     {PROJECTS.map((project) => <ProjectDetail project={project} />)}
 
-    <section class="view" id="vista-about" data-view="about" aria-labelledby="titulo-sobre-mi">
-      <h2 id="titulo-sobre-mi" class="view__title" tabindex="-1" data-view-title>Sobre mí</h2>
+    <View id="vista-about" data-view="about" aria-labelledby="titulo-sobre-mi">
+      <ViewTitle id="titulo-sobre-mi">Sobre mí</ViewTitle>
       <p class="leading-snug">{PROFILE.bio}</p>
-      <blockquote class="motto">{PROFILE.motto}</blockquote>
-      <h3 class="view__subtitle">Experiencia</h3>
-      <ul class="timeline">
+      <blockquote class="my-3.25 border-l-3 border-ice bg-ice/8 px-3 py-2 text-frost">{PROFILE.motto}</blockquote>
+      <h3 class={subtitle}>Experiencia</h3>
+      <ul class="flex flex-col gap-1.75">
         {
           PROFILE.experience.map((item) => (
             <li>
               <strong>{item.role}</strong> en {item.organization}
-              <span class="block text-sm text-mist">{item.detail}</span>
+              <span class="block text-[0.875em] text-mist">{item.detail}</span>
             </li>
           ))
         }
       </ul>
-      <h3 class="view__subtitle">Formación</h3>
-      <ul class="timeline">
+      <h3 class={subtitle}>Formación</h3>
+      <ul class="flex flex-col gap-1.75">
         {
           PROFILE.education.map((item) => (
             <li>
               <strong>{item.role}</strong> en {item.organization}
-              <span class="block text-sm text-mist">{item.detail}</span>
+              <span class="block text-[0.875em] text-mist">{item.detail}</span>
             </li>
           ))
         }
       </ul>
-    </section>
+    </View>
 
-    <section class="view" id="vista-skills" data-view="skills" aria-labelledby="titulo-habilidades">
-      <h2 id="titulo-habilidades" class="view__title" tabindex="-1" data-view-title>Habilidades</h2>
+    <View id="vista-skills" data-view="skills" aria-labelledby="titulo-habilidades">
+      <ViewTitle id="titulo-habilidades">Habilidades</ViewTitle>
       {
         PROFILE.skills.map((group) => (
           <div class="mb-3">
-            <h3 class="view__subtitle">{group.title}</h3>
+            <h3 class={subtitle}>{group.title}</h3>
             <ul class="flex flex-wrap gap-1.5">
               {group.items.map((item) => (
-                <li class="chip chip--tech">{item}</li>
+                <Chip as="li" tone="tech">
+                  {item}
+                </Chip>
               ))}
             </ul>
           </div>
         ))
       }
-    </section>
+    </View>
 
-    <section class="view" id="vista-contact" data-view="contact" aria-labelledby="titulo-contacto">
-      <h2 id="titulo-contacto" class="view__title" tabindex="-1" data-view-title>Contacto</h2>
+    <View id="vista-contact" data-view="contact" aria-labelledby="titulo-contacto">
+      <ViewTitle id="titulo-contacto">Contacto</ViewTitle>
       <p class="mb-3 leading-snug">¿Un proyecto, una vacante o una pregunta? Escríbeme y respondo pronto.</p>
       {
         email && (
-          <a class="action action--primary mb-3 w-full justify-center" href={email.url}>
+          <ActionButton href={email.url} primary class="mb-3 w-full justify-center">
             <PixelIcon name="mail" />
             Escribir a {email.handle}
-          </a>
+          </ActionButton>
         )
       }
-      <ul class="contact-list">
+      <ul class={list}>
         {
           PROFILE.links
             .filter((link) => link.id !== 'email')
             .map((link) => (
               <li>
-                <a class="contact-row" href={link.url} target="_blank" rel="noopener noreferrer me">
-                  <PixelIcon name={LINK_ICONS[link.id]} />
+                <a
+                  class:list={[row, 'grid grid-cols-[auto_auto_1fr] items-center gap-2.5 px-2.75 py-2']}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer me"
+                >
+                  <PixelIcon name={LINK_ICONS[link.id]} class="size-[1em] flex-none fill-ice" />
                   <span class="font-bold">{link.label}</span>
                   <span class="text-mist">{link.handle}</span>
                   <span class="sr-only">(se abre en otra pestaña)</span>
@@ -153,18 +192,21 @@ const email = PROFILE.links.find((link) => link.id === 'email');
             ))
         }
       </ul>
-    </section>
+    </View>
 
-    <section class="view" id="vista-map" data-view="map" aria-labelledby="titulo-mapa">
-      <h2 id="titulo-mapa" class="view__title" tabindex="-1" data-view-title>Mapa de Ciudad Primada</h2>
-      <p class="mb-2 text-sm text-mist js-only">Toca un edificio y el personaje camina solo hasta su puerta.</p>
-      <div class="minimap js-only" data-minimap>
-        <canvas class="minimap__canvas" data-minimap-canvas aria-hidden="true"></canvas>
+    <View id="vista-map" data-view="map" aria-labelledby="titulo-mapa">
+      <ViewTitle id="titulo-mapa">Mapa de Ciudad Primada</ViewTitle>
+      <p class="mb-2 text-[0.875em] text-mist no-js:hidden!">Toca un edificio y el personaje camina solo hasta su puerta.</p>
+      <div
+        class="relative mb-2.75 aspect-[48/40] w-full overflow-hidden rounded-[6px] border-2 border-slate bg-[#2f6fc8] no-js:hidden!"
+        data-minimap
+      >
+        <canvas class="block size-full [image-rendering:pixelated]" data-minimap-canvas aria-hidden="true"></canvas>
         {
           markers.map((marker) => (
             <button
               type="button"
-              class="minimap__marker"
+              class="absolute size-4.75 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-abyss bg-ice hover:scale-130 focus-visible:scale-130 data-[kind=place]:bg-gold"
               data-kind={marker.isProject ? 'project' : 'place'}
               style={`left:${marker.left}%;top:${marker.top}%`}
               data-walk-to={marker.id}
@@ -173,41 +215,51 @@ const email = PROFILE.links.find((link) => link.id === 'email');
             />
           ))
         }
-        <span class="minimap__player" data-map-player aria-hidden="true"></span>
+        <span
+          class="pointer-events-none absolute size-3 -translate-x-1/2 -translate-y-1/2 rotate-45 border-2 border-white bg-ember transition-[left,top] duration-120 ease-linear"
+          data-map-player
+          aria-hidden="true"></span>
       </div>
-      <ul class="place-list">
+      <ul class={list}>
         {
           markers.map((marker) => (
             <li>
-              <button type="button" class="place-row js-only" data-walk-to={marker.id}>
-                <span class="place-row__dot" data-kind={marker.isProject ? 'project' : 'place'} />
+              <button
+                type="button"
+                class:list={[row, 'flex w-full items-center gap-2.5 px-2.5 py-1.5 text-left no-js:hidden!']}
+                data-walk-to={marker.id}
+              >
+                <span
+                  class="size-2.75 flex-none rounded-full bg-ice data-[kind=place]:bg-gold"
+                  data-kind={marker.isProject ? 'project' : 'place'}
+                />
                 {marker.name}
               </button>
-              <span class="no-js-only">{marker.name}</span>
+              <span class="js:hidden!">{marker.name}</span>
             </li>
           ))
         }
       </ul>
-    </section>
+    </View>
 
-    <section class="view" id="vista-options" data-view="options" aria-labelledby="titulo-opciones">
-      <h2 id="titulo-opciones" class="view__title" tabindex="-1" data-view-title>Opciones</h2>
-      <form class="settings js-only" data-settings>
-        <label class="setting">
+    <View id="vista-options" data-view="options" aria-labelledby="titulo-opciones">
+      <ViewTitle id="titulo-opciones">Opciones</ViewTitle>
+      <form class="flex flex-col gap-2.25 no-js:hidden!" data-settings>
+        <label class={setting}>
           <span>Sonido</span>
-          <input type="checkbox" name="sound" />
+          <input class="size-4.75 accent-ice" type="checkbox" name="sound" />
         </label>
-        <label class="setting">
+        <label class={setting}>
           <span>Velocidad del texto</span>
-          <select name="textSpeed">
+          <select class={select} name="textSpeed">
             <option value="slow">Lenta</option>
             <option value="normal" selected>Normal</option>
             <option value="fast">Rápida</option>
           </select>
         </label>
-        <label class="setting">
+        <label class={setting}>
           <span>Estación</span>
-          <select name="season">
+          <select class={select} name="season">
             <option value="auto" selected>Según el mes</option>
             <option value="spring">Primavera</option>
             <option value="summer">Verano</option>
@@ -215,9 +267,9 @@ const email = PROFILE.links.find((link) => link.id === 'email');
             <option value="winter">Invierno</option>
           </select>
         </label>
-        <label class="setting">
+        <label class={setting}>
           <span>Hora del día</span>
-          <select name="time">
+          <select class={select} name="time">
             <option value="auto" selected>Según tu reloj</option>
             <option value="morning">Mañana</option>
             <option value="day">Día</option>
@@ -225,20 +277,23 @@ const email = PROFILE.links.find((link) => link.id === 'email');
             <option value="night">Noche</option>
           </select>
         </label>
-        <button type="button" class="action" data-reset-visited>Borrar proyectos visitados</button>
+        <ActionButton data-reset-visited>Borrar proyectos visitados</ActionButton>
       </form>
-      <p class="no-js-only text-mist">Las opciones del juego necesitan JavaScript.</p>
-    </section>
+      <p class="text-mist js:hidden!">Las opciones del juego necesitan JavaScript.</p>
+    </View>
   </div>
 
-  <nav class="nav-bar js-only" aria-label="Navegación de la pantalla táctil">
-    <button type="button" class="nav-bar__button" data-nav-back disabled>
+  <nav
+    class="flex flex-none justify-between border-t border-ice/25 bg-[rgb(5_8_16/0.6)] px-2 py-1.5 no-js:hidden!"
+    aria-label="Navegación de la pantalla táctil"
+  >
+    <button type="button" class={navButton} data-nav-back disabled>
       <PixelIcon name="back" />
       Atrás
     </button>
-    <button type="button" class="nav-bar__button" data-open-view="home">
+    <button type="button" class={navButton} data-open-view="home">
       <PixelIcon name="home" />
       Menú
     </button>
   </nav>
-</section>
+</Screen>

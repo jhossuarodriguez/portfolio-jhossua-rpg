@@ -4,32 +4,101 @@ interface Props {
 }
 
 const { side } = Astro.props;
+
+// Medidas en px fijos: `computeLayout` cuenta con ellas (CHROME en src/game/core/layout.ts).
+const pressed = 'data-[pressed=true]:brightness-70';
+const dpadButton = [
+  'relative bg-[linear-gradient(180deg,#2a3142,#1a1f2c)] data-[pressed=true]:translate-y-[1px]',
+  pressed,
+  // Flecha triangular, apuntando arriba; cada botón la gira.
+  'after:absolute after:inset-0 after:m-auto after:h-[8px] after:w-[10px] after:bg-[#6b7690]',
+  'after:[clip-path:polygon(50%_0,100%_100%,0_100%)]',
+];
+const faceButton = [
+  'size-[50px] rounded-full bg-[radial-gradient(circle_at_35%_30%,#3a4256,#171b26_70%)] text-[18px] font-bold text-frost',
+  pressed,
+];
+const pillButton = [
+  'rounded-full bg-[#222838] px-[10px] py-[3px] text-[11px] text-mist shadow-pill',
+  'data-[pressed=true]:translate-y-[1px]',
+  pressed,
+];
 ---
 
 {
   side === 'dpad' ? (
-    <div class="pad pad--dpad js-only" role="group" aria-label="Cruceta" data-game-control>
-      <button type="button" class="dpad__button dpad__button--up" data-button="up" aria-label="Arriba" />
-      <button type="button" class="dpad__button dpad__button--left" data-button="left" aria-label="Izquierda" />
-      <span class="dpad__center" aria-hidden="true" />
-      <button type="button" class="dpad__button dpad__button--right" data-button="right" aria-label="Derecha" />
-      <button type="button" class="dpad__button dpad__button--down" data-button="down" aria-label="Abajo" />
+    <div
+      class="grid grid-cols-[repeat(3,34px)] grid-rows-[repeat(3,34px)] drop-shadow-dpad select-none touch-none no-js:hidden!"
+      role="group"
+      aria-label="Cruceta"
+      data-game-control
+    >
+      <button
+        type="button"
+        class:list={[dpadButton, 'col-start-2 row-start-1 rounded-t-[6px]']}
+        data-button="up"
+        aria-label="Arriba"
+      />
+      <button
+        type="button"
+        class:list={[dpadButton, 'col-start-1 row-start-2 rounded-l-[6px] after:-rotate-90']}
+        data-button="left"
+        aria-label="Izquierda"
+      />
+      <span
+        class="relative col-start-2 row-start-2 bg-[linear-gradient(180deg,#2a3142,#1a1f2c)]"
+        aria-hidden="true"
+      />
+      <button
+        type="button"
+        class:list={[dpadButton, 'col-start-3 row-start-2 rounded-r-[6px] after:rotate-90']}
+        data-button="right"
+        aria-label="Derecha"
+      />
+      <button
+        type="button"
+        class:list={[dpadButton, 'col-start-2 row-start-3 rounded-b-[6px] after:rotate-180']}
+        data-button="down"
+        aria-label="Abajo"
+      />
     </div>
   ) : (
-    <div class="pad pad--actions js-only" role="group" aria-label="Botones" data-game-control>
-      <div class="face-buttons">
-        <button type="button" class="face-button face-button--b" data-button="b" aria-label="B: cancelar, mantén para correr">
+    <div
+      class="flex flex-col items-center gap-[14px] select-none touch-none no-js:hidden!"
+      role="group"
+      aria-label="Botones"
+      data-game-control
+    >
+      {/* A arriba a la derecha y B abajo a la izquierda, en diagonal como en la consola. */}
+      <div class="flex h-[84px] items-center gap-[12px]">
+        <button
+          type="button"
+          class:list={[
+            faceButton,
+            'translate-y-[16px] shadow-button data-[pressed=true]:translate-y-[17px]',
+          ]}
+          data-button="b"
+          aria-label="B: cancelar, mantén para correr"
+        >
           B
         </button>
-        <button type="button" class="face-button face-button--a" data-button="a" aria-label="A: hablar o confirmar">
+        <button
+          type="button"
+          class:list={[
+            faceButton,
+            '-translate-y-[16px] shadow-button-a data-[pressed=true]:-translate-y-[15px]',
+          ]}
+          data-button="a"
+          aria-label="A: hablar o confirmar"
+        >
           A
         </button>
       </div>
-      <div class="pill-buttons">
-        <button type="button" class="pill-button" data-button="select" aria-label="Select: abrir el mapa">
+      <div class="flex gap-[10px]">
+        <button type="button" class:list={pillButton} data-button="select" aria-label="Select: abrir el mapa">
           Select
         </button>
-        <button type="button" class="pill-button" data-button="start" aria-label="Start: abrir el menú">
+        <button type="button" class:list={pillButton} data-button="start" aria-label="Start: abrir el menú">
           Start
         </button>
       </div>

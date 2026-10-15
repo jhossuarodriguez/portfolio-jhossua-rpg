@@ -1,0 +1,20 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+/** Una vista de la pantalla táctil. Con JS solo se ve la que tiene `data-active`; sin JS, todas en columna. */
+type Props = HTMLAttributes<'section'>;
+
+const { class: className, ...attributes } = Astro.props;
+---
+
+<section
+  class:list={[
+    'h-full overflow-y-auto overscroll-contain px-3.5 pt-3.25 pb-4.75',
+    '[scrollbar-color:var(--color-slate)_transparent] [scrollbar-width:thin]',
+    'js:not-data-active:hidden no-js:h-auto no-js:overflow-visible no-js:border-b no-js:border-slate',
+    className,
+  ]}
+  {...attributes}
+>
+  <slot />
+</section>

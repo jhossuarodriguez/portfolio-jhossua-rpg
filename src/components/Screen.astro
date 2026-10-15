@@ -1,0 +1,15 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+/** El cristal de una de las dos pantallas, con su marco. Mide `--screen-w` × `--screen-h` (ver Console.astro). */
+type Props = HTMLAttributes<'section'>;
+
+const { class: className, ...attributes } = Astro.props;
+---
+
+<section
+  class:list={['relative h-(--screen-h) w-(--screen-w) overflow-hidden rounded-[3px] bg-night shadow-bezel', className]}
+  {...attributes}
+>
+  <slot />
+</section>

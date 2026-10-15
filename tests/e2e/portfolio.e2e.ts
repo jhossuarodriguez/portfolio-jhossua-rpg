@@ -53,7 +53,7 @@ describe('pantalla táctil', { tags: ['portafolio'] }, () => {
   test('el enlace "Saltar al contenido" lleva el foco a la pantalla táctil', async ({ app, browser }) => {
     await app.open('/');
     await browser.keyboard.press('Tab');
-    await expect(browser.locator('.skip-link')).toBeFocused();
+    await expect(browser.locator('a[href="#pantalla-tactil"]')).toBeFocused();
     await browser.keyboard.press('Enter');
     await browser.waitForURL(/#pantalla-tactil$/);
   });

@@ -1,0 +1,28 @@
+---
+import type { ProjectStatus } from '@/data/projects.ts';
+
+interface Props {
+  /** `solid` (por defecto), `quiet` (solo el borde) o `tech` (tecnologías). */
+  tone?: 'solid' | 'quiet' | 'tech';
+  /** `li` cuando la ficha es un elemento de una lista. */
+  as?: 'span' | 'li';
+  /** Colorea la ficha según el estado del proyecto. */
+  status?: ProjectStatus;
+}
+
+const { tone = 'solid', as: Tag = 'span', status } = Astro.props;
+
+const TONES = {
+  solid:
+    'bg-slate text-frost data-[status=live]:bg-[#1f6b4a] data-[status=in-progress]:bg-[#7a5a12] data-[status=in-progress]:text-[#fff4cf]',
+  quiet: 'text-mist inset-ring inset-ring-slate',
+  tech: 'bg-ice/12 text-frost inset-ring inset-ring-ice/40',
+} as const;
+---
+
+<Tag
+  class:list={['inline-block rounded-full px-2 py-0.25 text-[0.8em] whitespace-nowrap', TONES[tone]]}
+  data-status={status}
+>
+  <slot />
+</Tag>

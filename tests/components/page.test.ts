@@ -1,8 +1,8 @@
+import { renderToHtml } from '@tests/support/dom.ts';
 import { Window } from 'happy-dom';
 import { describe, expect, it } from 'vitest';
-import { PROFILE } from '../../src/data/profile.ts';
-import Index from '../../src/pages/index.astro';
-import { renderToHtml } from '../support/dom.ts';
+import { PROFILE } from '@/data/profile.ts';
+import Index from '@/pages/index.astro';
 
 async function renderPage(): Promise<Document> {
   const html = await renderToHtml(Index);
@@ -40,7 +40,7 @@ describe('página principal', () => {
 
   it('el enlace para saltar al contenido apunta a la pantalla táctil', async () => {
     const document = await renderPage();
-    const skip = document.querySelector('.skip-link');
+    const skip = [...document.querySelectorAll('a')].find((link) => link.textContent?.includes('Saltar al contenido'));
     expect(skip?.getAttribute('href')).toBe('#pantalla-tactil');
     expect(document.getElementById('pantalla-tactil')).not.toBeNull();
   });

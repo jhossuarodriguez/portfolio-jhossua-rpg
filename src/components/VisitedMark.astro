@@ -1,0 +1,14 @@
+---
+interface Props {
+  projectId: string;
+}
+
+const { projectId } = Astro.props;
+---
+
+{/* Rombo de "visitado": vacío hasta que entras al edificio (la pantalla táctil cambia `data-visited`). */}
+<span
+  class="inline-block size-2.75 rotate-45 border-2 border-slate data-[visited=true]:border-gold data-[visited=true]:bg-gold"
+  data-visited-mark={projectId}
+  data-visited="false"
+  aria-label="Sin visitar"></span>

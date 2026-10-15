@@ -1,10 +1,25 @@
 ---
-import { PROFILE } from '../data/profile.ts';
+import Screen from '@/components/Screen.astro';
+import { PROFILE } from '@/data/profile.ts';
+
+/*
+ * Lo que va encima del lienzo se diseña a la resolución de la consola (256×192) y el navegador lo amplía con
+ * `zoom: var(--pixel-scale)`, la misma escala que el pixel art. Por eso aquí `--spacing` vale 1px: `p-7`,
+ * `text-[11px]` o `border-2` son píxeles de la consola.
+ */
+const message =
+  '[zoom:var(--pixel-scale)] absolute inset-x-8 bottom-8 rounded-[4px] bg-[rgb(10_14_26/0.92)] p-6 text-center text-[9px] text-frost';
+const option = [
+  'relative min-w-40 py-1 pr-4 pl-12 text-left text-[11px] font-medium text-ink',
+  // Cursor ▶ de la opción elegida.
+  'before:absolute before:top-1/2 before:left-2 before:hidden before:h-7 before:w-5 before:-translate-y-1/2 before:bg-ink',
+  'before:[clip-path:polygon(0_0,100%_50%,0_100%)] data-[selected=true]:before:block',
+];
 ---
 
-<section
+<Screen
   id="pantalla-mundo"
-  class="screen screen--top"
+  class="[--spacing:1px] focus-visible:outline-3 focus-visible:outline-offset-[calc(var(--dpx)*6+2px)]"
   aria-label="Mundo del juego: Ciudad Primada"
   aria-describedby="mundo-ayuda"
   tabindex="0"
@@ -12,41 +27,85 @@ import { PROFILE } from '../data/profile.ts';
   data-scene="title"
   data-dialog-state="closed"
 >
-  <canvas class="game-canvas" width="256" height="192" aria-hidden="true" data-game-canvas></canvas>
+  <canvas
+    class="block size-full [image-rendering:pixelated]"
+    width="256"
+    height="192"
+    aria-hidden="true"
+    data-game-canvas></canvas>
 
   <p id="mundo-ayuda" class="sr-only">
     Juego opcional: recorre Ciudad Primada, donde cada edificio es un proyecto. Flechas para moverte, Z o Enter para
     interactuar, X o Shift para correr. Todo el contenido también está en la pantalla táctil.
   </p>
 
-  <div class="title-card" data-title-card>
-    <p class="title-card__kicker">Portafolio de</p>
-    <p class="title-card__name">{PROFILE.shortName}</p>
-    <p class="title-card__role">{PROFILE.role}</p>
-    <button type="button" class="title-card__start" data-start data-game-control>
-      <span class="title-card__start-blink">Pulsa START</span>
-    </button>
-    <p class="title-card__foot">Edición Negra v2</p>
-  </div>
-
-  <p class="zone-banner" data-zone-banner data-visible="false" aria-hidden="true"></p>
-
-  <div class="dialog" data-dialog hidden>
-    <p class="dialog__speaker" data-dialog-speaker hidden></p>
-    <p class="dialog__text" aria-hidden="true">
-      <span class="dialog__line" data-dialog-line></span>
-      <span class="dialog__line" data-dialog-line></span>
+  {/* Pantalla de título: el pueblo de fondo, en "modo demo". */}
+  <div
+    class="[zoom:var(--pixel-scale)] absolute inset-0 flex flex-col items-center justify-center gap-2 bg-[rgb(5_8_16/0.35)] bg-[linear-gradient(180deg,transparent_22%,rgb(5_8_16/0.82)_34%,rgb(5_8_16/0.82)_72%,transparent_84%)] text-center transition-[opacity,visibility] duration-400 ease-[ease] off-title:pointer-events-none off-title:invisible off-title:opacity-0"
+    data-title-card
+  >
+    <p class="text-[8px] text-mist">Portafolio de</p>
+    <p
+      class="text-[34px] leading-[0.9] font-bold tracking-[1px] text-frost text-shadow-title"
+    >
+      {PROFILE.shortName}
     </p>
-    <span class="dialog__arrow" data-dialog-arrow aria-hidden="true" hidden></span>
+    <p class="mb-14 text-[10px] font-medium text-ice">{PROFILE.role}</p>
+    <button
+      type="button"
+      class="rounded-[3px] px-10 py-3 text-[10px] font-bold text-frost hover:bg-ice/15 no-js:hidden in-data-[scene=unsupported]:hidden booting:invisible"
+      data-start
+      data-game-control
+    >
+      <span class="animate-blink motion-reduce:animate-none">Pulsa START</span>
+    </button>
+    <p class="absolute bottom-5 rounded-[2px] bg-[rgb(5_8_16/0.7)] px-4 text-[7px] text-mist">Edición Negra v2</p>
   </div>
 
-  <div class="choice" data-choice role="listbox" aria-label="Respuesta" hidden>
-    <button type="button" class="choice__option" role="option" data-choice-option data-game-control>Sí</button>
-    <button type="button" class="choice__option" role="option" data-choice-option data-game-control>No</button>
+  {/* Cartel de zona: aparece arriba a la izquierda al cambiar de barrio. */}
+  <p
+    class="[zoom:var(--pixel-scale)] absolute top-4 left-4 -translate-y-30 rounded-r-[4px] border-l-3 border-ice bg-[rgb(10_14_26/0.92)] py-3 pr-8 pl-6 text-[9px] font-bold text-frost ring ring-ice/35 transition-transform duration-280 ease-[cubic-bezier(0.2,0.9,0.3,1.2)] data-[visible=true]:translate-y-0"
+    data-zone-banner
+    data-visible="false"
+    aria-hidden="true"></p>
+
+  {/* Cuadro de diálogo: blanco, esquinas redondas y doble borde, como en la consola. */}
+  <div
+    class="[zoom:var(--pixel-scale)] absolute inset-x-4 bottom-4 h-48 cursor-pointer rounded-[6px] border-2 border-paper-edge bg-paper pt-7 pr-12 pb-6 pl-10 text-ink shadow-dialog inset-ring inset-ring-paper-line"
+    data-dialog
+    hidden
+  >
+    <p
+      class="absolute -top-11 left-6 rounded-t-[3px] bg-steel px-6 py-1 text-[7.5px] font-bold text-ice"
+      data-dialog-speaker
+      hidden></p>
+    <p
+      class="flex flex-col text-[11px] leading-[16px] font-medium whitespace-pre text-shadow-dialog"
+      aria-hidden="true"
+    >
+      <span class="min-h-16" data-dialog-line></span>
+      <span class="min-h-16" data-dialog-line></span>
+    </p>
+    <span
+      class="absolute right-7 bottom-5 h-5 w-7 animate-bob bg-ember [clip-path:polygon(0_0,100%_0,50%_100%)]"
+      data-dialog-arrow
+      aria-hidden="true"
+      hidden></span>
   </div>
 
-  <p class="screen-message" data-screen-message hidden></p>
+  <div
+    class="[zoom:var(--pixel-scale)] absolute right-4 bottom-55 flex flex-col gap-1 rounded-[6px] border-2 border-paper-edge bg-paper px-6 py-4 inset-ring inset-ring-paper-line"
+    data-choice
+    role="listbox"
+    aria-label="Respuesta"
+    hidden
+  >
+    <button type="button" class:list={option} role="option" data-choice-option data-game-control>Sí</button>
+    <button type="button" class:list={option} role="option" data-choice-option data-game-control>No</button>
+  </div>
+
+  <p class={message} data-screen-message hidden></p>
   <noscript>
-    <p class="screen-message">El pueblo necesita JavaScript. Todo el portafolio está en la pantalla de abajo.</p>
+    <p class={message}>El pueblo necesita JavaScript. Todo el portafolio está en la pantalla de abajo.</p>
   </noscript>
-</section>
+</Screen>
