@@ -21,7 +21,7 @@ El juego es una **capa opcional**. Toda la información vive en HTML; el canvas 
 | pnpm | 12.11 | `packageManager` en `package.json`. Workspace con `tools/*`. |
 | Astro | 7.3 | Sitio estático (`output: 'static'`). |
 | three.js | 0.186 | Solo en `src/game/render/`. Se carga en un chunk aparte. |
-| Tailwind CSS | 4.3 | Vía `@tailwindcss/vite`. Tokens en `@theme` de `src/styles/global.css`. |
+| Tailwind CSS | 4.3 | Vía `@tailwindcss/vite`. Utilidades en el marcado; tokens en `@theme` de `global.css`. |
 | TypeScript | **7.0** (`tsc` nativo) | Tipado de todo el `.ts`. Estricto al máximo. |
 | TypeScript 6 | 6.0 | **Solo** en `tools/astro-check` para `astro check` (los `.astro`). |
 | Vitest | 5.0 | Proyectos `unit`, `components`, `functional`. |
@@ -56,7 +56,7 @@ src/
 ├─ pages/index.astro     La única página.
 ├─ layouts/              <head>, SEO, JSON-LD, fuentes.
 ├─ components/           Astro: consola, pantallas, controles, fichas. Sin lógica de juego.
-├─ styles/global.css     Tailwind + componentes con unidades de "píxel de consola" (--dpx).
+├─ styles/global.css     Tailwind: tokens (@theme), variantes propias y estilos base. Sin clases de componentes.
 ├─ scripts/main.ts       Entrada del navegador: pantalla táctil primero, juego después (import dinámico).
 └─ game/
    ├─ core/              Lógica pura: tipos, input, actores, diálogos, A*, simulación, cámara, layout, estaciones.
@@ -95,15 +95,17 @@ el estado una vez por frame.
    errores (solo en tests para tipos de librerías). Activos: `strict`, `noUncheckedIndexedAccess`,
    `exactOptionalPropertyTypes`, `noPropertyAccessFromIndexSignature` (usa `dataset['x']`), `erasableSyntaxOnly`
    (sin `enum`, `namespace` ni propiedades de parámetro en constructores).
-7. **Imports con extensión `.ts`** dentro de `src/game` y `src/data` (Node los ejecuta tal cual).
+7. **Imports absolutos con alias, nunca relativos:** `@/` apunta a `src/` y `@tests/` a `tests/` (`paths` de
+   `tsconfig.json`, que Astro y Vitest leen solos). Dentro de `src/game` y `src/data`, con extensión `.ts` (Node los
+   ejecuta tal cual). Los scripts de Node que importan de `src` se corren con `node --import ./scripts/aliases.ts`.
 8. **Accesibilidad no negociable.** Todo control con nombre accesible. Los diálogos se anuncian en una región
    `aria-live`. Se respeta `prefers-reduced-motion` (texto instantáneo, sin zoom ni paseo de cámara). El teclado del
    juego ignora las teclas si el foco está en un botón, enlace o campo, salvo los marcados `[data-game-control]`.
 9. **Contrato con los e2e.** `[data-top-screen]` publica el estado en `data-scene`, `data-dialog-state`,
    `data-player-x`, `data-player-y`, `data-facing`, `data-zone`, `data-season`, `data-time` y `data-ready`.
    Si renombras algo, actualiza `tests/e2e/`.
-10. **Mejora progresiva.** Sin JS, la pantalla táctil muestra todas las vistas en columna (clase `no-js`). Con JS,
-    solo la vista con `data-active`.
+10. **Mejora progresiva.** Sin JS, la pantalla táctil muestra todas las vistas en columna (clase `no-js` en `<html>`,
+    variantes `no-js:` y `js:`). Con JS, solo la vista con `data-active`.
 
 ## Recetas
 
@@ -126,6 +128,27 @@ Todo está en tiles: capas de suelo (`ground`, en orden), edificios, objetos (`P
 Dibuja en `src/game/art/` con las primitivas de `pixel.ts` (`fromRows`, `mirrorRows`, `fillRect`, `outline`…) y la
 paleta de la estación (`WorldPalette`); así cambia solo con primavera/verano/otoño/invierno. Añade un test en
 `tests/unit/art.test.ts` que compruebe tamaño y contenido.
+
+## Estilos con Tailwind
+
+Todo el estilo va en el marcado con utilidades. `src/styles/global.css` solo tiene los tokens (`@theme`), las variantes
+propias y los estilos base de elementos (`html`, `body`, `kbd`, foco, movimiento reducido). Lo que se repite es un
+componente (`Screen`, `View`, `ViewTitle`, `Chip`, `ActionButton`, `VisitedMark`), no una clase.
+
+- **Unidades por zona.** Cada pantalla redefine `--spacing`, así que la misma utilidad mide distinto según dónde esté:
+  - Pantalla de arriba (`TopScreen`): `--spacing: 1px` y cada capa sobre el lienzo lleva `[zoom:var(--pixel-scale)]`.
+    Se diseña a 256×192 como en la consola (`p-7`, `text-[11px]` o `border-2` son píxeles de consola) y el navegador
+    lo amplía con la misma escala que el pixel art.
+  - Pantalla táctil (`BottomScreen`): `--spacing: 0.25em`, así todo crece con su letra (`clamp(13px, …, 17px)`). Los
+    tamaños de texto van en `em` (`text-[0.8em]`); nada de `text-sm` ni otras medidas en `rem`.
+  - Carcasa y controles: px fijos (`h-[28px]`, `size-[50px]`), porque `computeLayout` cuenta con ellos (`CHROME`).
+- **Variables de la consola** (en `Console.astro`; `main.ts` sobrescribe las tres primeras): `--screen-w`, `--screen-h`,
+  `--pixel-scale` (px CSS por píxel de consola, para `zoom`), `--dpx` (lo mismo como longitud) y `--pad` y
+  `--side-panel` (iguales a `CHROME` en `layout.ts`).
+- **Variantes propias:** `js:` y `no-js:` (mejora progresiva), `compact:` (el corte de `CHROME.compactBreakpoint`),
+  `off-title:` y `booting:` (estados de `[data-top-screen]`). Para el resto, `data-[x=y]:` e `in-data-[x=y]:`.
+- **Una utilidad por propiedad.** Si dos clases del mismo elemento ponen la misma propiedad (`bg-slate` y `bg-ice`),
+  no gana la última escrita sino la que Tailwind ordene después: elige una sola con una condición.
 
 ## Testing
 
@@ -150,5 +173,7 @@ paleta de la estación (`WorldPalette`); así cambia solo con primavera/verano/o
 
 - No metas información solo en el canvas ni en atributos `aria-hidden`.
 - No añadas dependencias pesadas para algo que ya resuelve el motor (no hace falta un motor de juegos ni React).
-- No cambies `TILE`, `SCREEN_WIDTH` o `SCREEN_HEIGHT` sin revisar arte, cámara, CSS (`--dpx`) y tests.
+- No cambies `TILE`, `SCREEN_WIDTH` o `SCREEN_HEIGHT` sin revisar arte, cámara, estilos (`--dpx`, `--pixel-scale`,
+  el `zoom` de `TopScreen`) y tests.
+- No escribas clases de componentes en `global.css`: utilidades en el marcado o un componente de Astro.
 - No subas `.e2e/`, `dist/`, `coverage/` ni claves (`.env`).
